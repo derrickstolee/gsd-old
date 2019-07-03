@@ -373,7 +373,6 @@ namespace GVFS.CommandLine
 
             this.GetGVFSHooksPathAndCheckVersion(tracer, out string hooksVersion);
             enlistment.SetGVFSHooksVersion(hooksVersion);
-            this.CheckFileSystemSupportsRequiredFeatures(tracer, enlistment);
 
             string errorMessage = null;
             bool errorIsFatal = false;
@@ -684,36 +683,6 @@ You can specify a URL, a name of a configured cache server, or the special names
         private string GetAlternatesPath(GVFSEnlistment enlistment)
         {
             return Path.Combine(enlistment.WorkingDirectoryBackingRoot, GVFSConstants.DotGit.Objects.Info.Alternates);
-        }
-
-        private void CheckFileSystemSupportsRequiredFeatures(ITracer tracer, Enlistment enlistment)
-        {
-            try
-            {
-                string warning;
-                string error;
-                if (!GVFSPlatform.Instance.KernelDriver.IsSupported(enlistment.EnlistmentRoot, out warning, out error))
-                {
-                    this.ReportErrorAndExit(tracer, $"Error: {error}");
-                }
-            }
-            catch (VerbAbortedException)
-            {
-                // ReportErrorAndExit throws VerbAbortedException.  Catch and re-throw here so that GVFS does not report that
-                // it failed to determine if file system supports required features
-                throw;
-            }
-            catch (Exception e)
-            {
-                if (tracer != null)
-                {
-                    EventMetadata metadata = new EventMetadata();
-                    metadata.Add("Exception", e.ToString());
-                    tracer.RelatedError(metadata, "Failed to determine if file system supports features required by GVFS");
-                }
-
-                this.ReportErrorAndExit(tracer, "Error: Failed to determine if file system supports features required by GVFS.");
-            }
         }
 
         private void CheckGitVersion(ITracer tracer, GVFSEnlistment enlistment, out string version)

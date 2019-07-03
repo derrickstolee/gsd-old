@@ -62,11 +62,6 @@ namespace GVFS.UnitTests.Mock.Upgrader
             return this.FakedResultOfCheck(FailOnCheckType.IsElevated);
         }
 
-        protected override bool IsGVFSUpgradeSupported()
-        {
-            return this.FakedResultOfCheck(FailOnCheckType.ProjFSEnabled);
-        }
-
         protected override bool IsUnattended()
         {
             return this.FakedResultOfCheck(FailOnCheckType.UnattendedMode);

@@ -26,7 +26,7 @@ namespace GVFS.Service
         private string serviceDataLocation;
         private RepoRegistry repoRegistry;
         private ProductUpgradeTimer productUpgradeTimer;
-        private WindowsRequestHandler requestHandler;
+        private RequestHandler requestHandler;
 
         public GVFSService(JsonTracer tracer)
         {
@@ -51,7 +51,7 @@ namespace GVFS.Service
                     new GVFSMountProcess(this.tracer),
                     new NotificationHandler(this.tracer));
                 this.repoRegistry.Upgrade();
-                this.requestHandler = new WindowsRequestHandler(this.tracer, EtwArea, this.repoRegistry);
+                this.requestHandler = new RequestHandler(this.tracer, EtwArea, this.repoRegistry);
 
                 string pipeName = GVFSPlatform.Instance.GetGVFSServiceNamedPipeName(this.serviceName);
                 this.tracer.RelatedInfo("Starting pipe server with name: " + pipeName);
@@ -62,14 +62,6 @@ namespace GVFS.Service
                     this.requestHandler.HandleRequest))
                 {
                     this.CheckEnableGitStatusCacheTokenFile();
-
-                    using (ITracer activity = this.tracer.StartActivity("EnsurePrjFltHealthy", EventLevel.Informational))
-                    {
-                        // Make a best-effort to enable PrjFlt. Continue even if it fails.
-                        // This will be tried again when user attempts to mount an enlistment.
-                        string error;
-                        EnableAndAttachProjFSHandler.TryEnablePrjFlt(activity, out error);
-                    }
 
                     // Start product upgrade timer only after attempting to enable prjflt.
                     // On Windows server (where PrjFlt is not inboxed) this helps avoid

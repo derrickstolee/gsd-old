@@ -112,11 +112,6 @@ namespace GVFS.Upgrader
             return GVFSPlatform.Instance.IsElevated();
         }
 
-        protected virtual bool IsGVFSUpgradeSupported()
-        {
-            return GVFSPlatform.Instance.KernelDriver.IsGVFSUpgradeSupported();
-        }
-
         protected virtual bool IsServiceInstalledAndNotRunning()
         {
             GVFSPlatform.Instance.IsServiceInstalledAndRunning(GVFSConstants.Service.ServiceName, out bool isInstalled, out bool isRunning);
@@ -187,16 +182,6 @@ namespace GVFS.Upgrader
                     "The installer needs to be run from an elevated command prompt.",
                     adviceText);
                 this.tracer.RelatedWarning($"{nameof(this.IsGVFSUpgradeAllowed)}: Upgrade is not installable. {consoleError}");
-                return false;
-            }
-
-            if (!this.IsGVFSUpgradeSupported())
-            {
-                consoleError = string.Join(
-                    Environment.NewLine,
-                    $"{GVFSConstants.UpgradeVerbMessages.GVFSUpgrade} is only supported after the \"Windows Projected File System\" optional feature has been enabled by a manual installation of VFS for Git, and only on versions of Windows that support this feature.",
-                    "Check your team's documentation for how to upgrade.");
-                this.tracer.RelatedWarning(metadata: null, message:$"{nameof(this.IsGVFSUpgradeAllowed)}: Upgrade is not installable. {consoleError}", keywords: Keywords.Telemetry);
                 return false;
             }
 

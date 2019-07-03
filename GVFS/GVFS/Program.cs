@@ -19,7 +19,6 @@ namespace GVFS
                 typeof(CacheServerVerb),
                 typeof(CloneVerb),
                 typeof(ConfigVerb),
-                typeof(DehydrateVerb),
                 typeof(DiagnoseVerb),
                 typeof(LogVerb),
                 typeof(MountVerb),

@@ -108,7 +108,6 @@ namespace GVFS.CommandLine
                 }
             }
 
-            this.CheckKernelDriverSupported(normalizedEnlistmentRootPath);
             this.CheckNotInsideExistingRepo(normalizedEnlistmentRootPath);
             this.BlockEmptyCacheServerUrl(this.CacheServerUrl);
 
@@ -440,21 +439,6 @@ namespace GVFS.CommandLine
             }
         }
 
-        private void CheckKernelDriverSupported(string normalizedEnlistmentRootPath)
-        {
-            string warning;
-            string error;
-            if (!GVFSPlatform.Instance.KernelDriver.IsSupported(normalizedEnlistmentRootPath, out warning, out error))
-            {
-                this.ReportErrorAndExit($"Error: {error}");
-            }
-            else if (!string.IsNullOrEmpty(warning))
-            {
-                this.Output.WriteLine();
-                this.Output.WriteLine($"WARNING: {warning}");
-            }
-        }
-
         private void CheckNotInsideExistingRepo(string normalizedEnlistmentRootPath)
         {
             string errorMessage;
@@ -643,22 +627,6 @@ namespace GVFS.CommandLine
             finally
             {
                 RepoMetadata.Shutdown();
-            }
-
-            // Prepare the working directory folder for GVFS last to ensure that gvfs mount will fail if gvfs clone has failed
-            Exception exception;
-            string prepFileSystemError;
-            if (!GVFSPlatform.Instance.KernelDriver.TryPrepareFolderForCallbacks(enlistment.WorkingDirectoryBackingRoot, out prepFileSystemError, out exception))
-            {
-                EventMetadata metadata = new EventMetadata();
-                metadata.Add(nameof(prepFileSystemError), prepFileSystemError);
-                if (exception != null)
-                {
-                    metadata.Add("Exception", exception.ToString());
-                }
-
-                tracer.RelatedError(metadata, $"{nameof(this.CreateClone)}: TryPrepareFolderForCallbacks failed");
-                return new Result(prepFileSystemError);
             }
 
             return new Result(true);
