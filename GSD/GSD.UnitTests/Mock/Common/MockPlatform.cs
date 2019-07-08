@@ -204,7 +204,7 @@ namespace GSD.UnitTests.Mock.Common
 
             public override string DotGSDRoot
             {
-                get { return ".mockvfsforgit"; }
+                get { return ".mockGSD"; }
             }
 
             public override string GSDBinDirectoryPath

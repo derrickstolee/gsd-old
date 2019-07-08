@@ -41,7 +41,7 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
 
             // Add tombstone folder entry to the placeholder database so the checkout will remove the tombstone
             // and start projecting the folder again
-            string placeholderDatabasePath = Path.Combine(this.Enlistment.DotGSDRoot, TestConstants.Databases.VFSForGit);
+            string placeholderDatabasePath = Path.Combine(this.Enlistment.DotGSDRoot, TestConstants.Databases.GSD);
             GSDHelpers.AddPlaceholderFolder(placeholderDatabasePath, folderToDelete, TombstoneFolderPlaceholderType);
 
             this.Enlistment.MountGSD();

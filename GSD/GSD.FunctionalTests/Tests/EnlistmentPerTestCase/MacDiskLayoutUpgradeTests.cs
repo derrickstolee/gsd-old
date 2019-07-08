@@ -23,7 +23,7 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerTestCase
         {
             this.Enlistment.UnmountGSD();
 
-            this.fileSystem.DeleteFile(Path.Combine(this.Enlistment.DotGSDRoot, TestConstants.Databases.VFSForGit));
+            this.fileSystem.DeleteFile(Path.Combine(this.Enlistment.DotGSDRoot, TestConstants.Databases.GSD));
             this.WriteOldPlaceholderListDatabase();
 
             GSDHelpers.SaveDiskLayoutVersion(this.Enlistment.DotGSDRoot, "18", "0");
@@ -32,7 +32,7 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerTestCase
             this.Enlistment.UnmountGSD();
 
             // Validate the placeholders are in the SQLite placeholder database now
-            string placeholderDatabasePath = Path.Combine(this.Enlistment.DotGSDRoot, TestConstants.Databases.VFSForGit);
+            string placeholderDatabasePath = Path.Combine(this.Enlistment.DotGSDRoot, TestConstants.Databases.GSD);
             placeholderDatabasePath.ShouldBeAFile(this.fileSystem);
             string[] lines = GSDHelpers.GetAllSQLitePlaceholdersAsString(placeholderDatabasePath).Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             lines.Length.ShouldEqual(10);

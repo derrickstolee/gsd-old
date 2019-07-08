@@ -2,7 +2,7 @@ using CommandLine;
 
 namespace GSD.Upgrader
 {
-    [Verb("UpgradeOrchestrator", HelpText = "Upgrade VFS for Git.")]
+    [Verb("UpgradeOrchestrator", HelpText = "Upgrade GSD.")]
     public class UpgradeOptions
     {
         [Option(

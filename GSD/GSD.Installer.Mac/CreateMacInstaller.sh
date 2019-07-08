@@ -36,22 +36,22 @@ fi
 
 STAGINGDIR="${BUILDOUTPUTDIR}/Staging"
 PACKAGESTAGINGDIR="${BUILDOUTPUTDIR}/Packages"
-VFSFORGITDESTINATION="usr/local/vfsforgit"
+VFSFORGITDESTINATION="usr/local/GSD"
 DAEMONPLISTDESTINATION="Library/LaunchDaemons"
 AGENTPLISTDESTINATION="Library/LaunchAgents"
 LIBRARYEXTENSIONSDESTINATION="Library/Extensions"
 LIBRARYAPPSUPPORTDESTINATION="Library/Application Support/VFS For Git"
-INSTALLERPACKAGENAME="VFSForGit.$PACKAGEVERSION"
-INSTALLERPACKAGEID="com.vfsforgit.pkg"
-UNINSTALLERPATH="${SOURCEDIRECTORY}/uninstall_vfsforgit.sh"
+INSTALLERPACKAGENAME="GSD.$PACKAGEVERSION"
+INSTALLERPACKAGEID="com.GSD.pkg"
+UNINSTALLERPATH="${SOURCEDIRECTORY}/uninstall_GSD.sh"
 SCRIPTSPATH="${SOURCEDIRECTORY}/scripts"
-COMPONENTSPLISTPATH="${SOURCEDIRECTORY}/vfsforgit_components.plist"
+COMPONENTSPLISTPATH="${SOURCEDIRECTORY}/GSD_components.plist"
 DIST_FILE_NAME="Distribution.updated.xml"
 
 function CheckBuildIsAvailable()
 {
     if [ ! -d "$VFS_OUTPUTDIR" ] || [ ! -d "$VFS_PUBLISHDIR" ]; then
-        echo "Error: Could not find VFSForGit Build to package."
+        echo "Error: Could not find GSD Build to package."
         exit 1
     fi
 }
@@ -112,26 +112,26 @@ function CopyBinariesToInstall()
     copyPrjFS="cp -Rf \"${VFS_OUTPUTDIR}/ProjFS.Mac/Native/$CONFIGURATION\"/PrjFSKext.kext \"${STAGINGDIR}/${LIBRARYEXTENSIONSDESTINATION}/.\""
     eval $copyPrjFS || exit 1
     
-    copyPrjFS="cp -Rf \"${VFS_OUTPUTDIR}/ProjFS.Mac/Native/$CONFIGURATION/org.vfsforgit.prjfs.PrjFSKextLogDaemon.plist\" \"${STAGINGDIR}/${DAEMONPLISTDESTINATION}/.\""
+    copyPrjFS="cp -Rf \"${VFS_OUTPUTDIR}/ProjFS.Mac/Native/$CONFIGURATION/org.GSD.prjfs.PrjFSKextLogDaemon.plist\" \"${STAGINGDIR}/${DAEMONPLISTDESTINATION}/.\""
     eval $copyPrjFS || exit 1
     
-    copyNotificationApp="cp -Rf \"${VFS_OUTPUTDIR}/GSD.Notifications/VFSForGit.Mac/Build/Products/$CONFIGURATION/VFS For Git.app\" \"${STAGINGDIR}/${LIBRARYAPPSUPPORTDESTINATION}/.\""
+    copyNotificationApp="cp -Rf \"${VFS_OUTPUTDIR}/GSD.Notifications/GSD.Mac/Build/Products/$CONFIGURATION/VFS For Git.app\" \"${STAGINGDIR}/${LIBRARYAPPSUPPORTDESTINATION}/.\""
     eval $copyNotificationApp || exit 1
     
-    copyNotificationPlist="cp -Rf \"${SOURCEDIRECTORY}/../GSD.Notifications/VFSForGit.Mac/org.vfsforgit.usernotification.plist\" \"${STAGINGDIR}/${AGENTPLISTDESTINATION}/.\""
+    copyNotificationPlist="cp -Rf \"${SOURCEDIRECTORY}/../GSD.Notifications/GSD.Mac/org.GSD.usernotification.plist\" \"${STAGINGDIR}/${AGENTPLISTDESTINATION}/.\""
     eval $copyNotificationPlist || exit 1
     
-    copyServicePlist="cp -Rf \"${SOURCEDIRECTORY}/../GSD.Service/Mac/org.vfsforgit.service.plist\" \"${STAGINGDIR}/${AGENTPLISTDESTINATION}/.\""
+    copyServicePlist="cp -Rf \"${SOURCEDIRECTORY}/../GSD.Service/Mac/org.GSD.service.plist\" \"${STAGINGDIR}/${AGENTPLISTDESTINATION}/.\""
     eval $copyServicePlist || exit 1
     
     currentDirectory=`pwd`
     cd "${STAGINGDIR}/usr/local/bin"
-    linkCommand="ln -sf ../vfsforgit/gvfs gvfs"
+    linkCommand="ln -sf ../GSD/gvfs gvfs"
     eval $linkCommand
     cd $currentDirectory
 }
 
-function CreateVFSForGitInstaller()
+function CreateGSDInstaller()
 {
     pkgBuildCommand="/usr/bin/pkgbuild --identifier $INSTALLERPACKAGEID --component-plist \"${COMPONENTSPLISTPATH}\" --scripts \"${SCRIPTSPATH}\" --root \"${STAGINGDIR}\" \"${PACKAGESTAGINGDIR}/$INSTALLERPACKAGENAME.pkg\""
     eval $pkgBuildCommand || exit 1
@@ -164,14 +164,14 @@ function UpdateDistributionFile()
     /bin/rm -f "${BUILDOUTPUTDIR}/$DIST_FILE_NAME.bak"
 }
 
-function CreateVFSForGitDistribution()
+function CreateGSDDistribution()
 {
     # Update distribution file(removes Git info from template.)
     UpdateDistributionFile "" ""
     
-    buildVFSForGitDistCmd="/usr/bin/productbuild --distribution \"${BUILDOUTPUTDIR}/Distribution.updated.xml\" --package-path \"$PACKAGESTAGINGDIR\" \"${BUILDOUTPUTDIR}/$INSTALLERPACKAGENAME.pkg\""
-    echo $buildVFSForGitDistCmd
-    eval $buildVFSForGitDistCmd || exit 1
+    buildGSDDistCmd="/usr/bin/productbuild --distribution \"${BUILDOUTPUTDIR}/Distribution.updated.xml\" --package-path \"$PACKAGESTAGINGDIR\" \"${BUILDOUTPUTDIR}/$INSTALLERPACKAGENAME.pkg\""
+    echo $buildGSDDistCmd
+    eval $buildGSDDistCmd || exit 1
     
     /bin/rm -f "${BUILDOUTPUTDIR}/$DIST_FILE_NAME"
 }
@@ -230,8 +230,8 @@ function Run()
     CreateInstallerRoot
     CopyBinariesToInstall
     SetPermissions
-    CreateVFSForGitInstaller
-    CreateVFSForGitDistribution
+    CreateGSDInstaller
+    CreateGSDDistribution
     CreateMetaDistribution
 }
 

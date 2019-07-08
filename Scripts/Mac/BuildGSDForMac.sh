@@ -56,18 +56,18 @@ dotnet build $VFS_SRCDIR/GSD.sln --runtime osx-x64 --framework netcoreapp2.1 --c
 NATIVEDIR=$VFS_SRCDIR/GSD/GSD.Native.Mac
 xcodebuild -configuration $CONFIGURATION -workspace $NATIVEDIR/GSD.Native.Mac.xcworkspace build -scheme GSD.Native.Mac -derivedDataPath $VFS_OUTPUTDIR/GSD.Native.Mac || exit 1
 
-USERNOTIFICATIONDIR=$VFS_SRCDIR/GSD/GSD.Notifications/VFSForGit.Mac
-USERNOTIFICATIONPROJECT="$USERNOTIFICATIONDIR/VFSForGit.xcodeproj"
+USERNOTIFICATIONDIR=$VFS_SRCDIR/GSD/GSD.Notifications/GSD.Mac
+USERNOTIFICATIONPROJECT="$USERNOTIFICATIONDIR/GSD.xcodeproj"
 USERNOTIFICATIONSCHEME="VFS For Git"
 updateAppVersionCmd="(cd \"$USERNOTIFICATIONDIR\" && /usr/bin/xcrun agvtool new-marketing-version \"$VERSION\")"
 echo $updateAppVersionCmd
 eval $updateAppVersionCmd
 # Build user notification app
-xcodebuild -configuration $CONFIGURATION -project "$USERNOTIFICATIONPROJECT" build -scheme "$USERNOTIFICATIONSCHEME" -derivedDataPath $VFS_OUTPUTDIR/GSD.Notifications/VFSForGit.Mac || exit 1
+xcodebuild -configuration $CONFIGURATION -project "$USERNOTIFICATIONPROJECT" build -scheme "$USERNOTIFICATIONSCHEME" -derivedDataPath $VFS_OUTPUTDIR/GSD.Notifications/GSD.Mac || exit 1
 
 # Build the tests in a separate directory, so the binary for distribution does not contain
 # test plugins created and injected by the test build.
-xcodebuild -configuration $CONFIGURATION -project "$USERNOTIFICATIONPROJECT" test -scheme "$USERNOTIFICATIONSCHEME" -derivedDataPath $VFS_OUTPUTDIR/GSD.Notifications/VFSForGit.Mac/Tests || exit 1
+xcodebuild -configuration $CONFIGURATION -project "$USERNOTIFICATIONPROJECT" test -scheme "$USERNOTIFICATIONSCHEME" -derivedDataPath $VFS_OUTPUTDIR/GSD.Notifications/GSD.Mac/Tests || exit 1
 
 if [ ! -d $VFS_PUBLISHDIR ]; then
   mkdir $VFS_PUBLISHDIR || exit 1
@@ -94,5 +94,5 @@ if [ ! -e $BUILDDIR/libSharedDataQueue.dylib ]; then
   cp $VFS_PACKAGESDIR/shareddataqueuestallworkaround/1.0.0/libSharedDataQueue.dylib $BUILDDIR/libSharedDataQueue.dylib
 fi
 
-echo 'Running VFS for Git unit tests...'
+echo 'Running GSD unit tests...'
 $VFS_PUBLISHDIR/GSD.UnitTests || exit 1

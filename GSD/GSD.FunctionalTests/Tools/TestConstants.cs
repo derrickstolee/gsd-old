@@ -36,7 +36,7 @@ namespace GSD.FunctionalTests.Tools
             public const string Root = "databases";
             public static readonly string BackgroundOpsFile = Path.Combine(Root, "BackgroundGitOperations.dat");
             public static readonly string ModifiedPaths = Path.Combine(Root, "ModifiedPaths.dat");
-            public static readonly string VFSForGit = Path.Combine(Root, "VFSForGit.sqlite");
+            public static readonly string GSD = Path.Combine(Root, "GSD.sqlite");
         }
     }
 }

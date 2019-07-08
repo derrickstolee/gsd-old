@@ -24,7 +24,7 @@ namespace GSD.Common.Database
         public GSDDatabase(PhysicalFileSystem fileSystem, string enlistmentRoot, IDbConnectionFactory connectionFactory, int initialPooledConnections = InitialPooledConnections)
         {
             this.connectionPool = new BlockingCollection<IDbConnection>();
-            this.databasePath = Path.Combine(enlistmentRoot, GSDPlatform.Instance.Constants.DotGSDRoot, GSDConstants.DotGSD.Databases.VFSForGit);
+            this.databasePath = Path.Combine(enlistmentRoot, GSDPlatform.Instance.Constants.DotGSDRoot, GSDConstants.DotGSD.Databases.GSD);
             this.connectionFactory = connectionFactory;
 
             string folderPath = Path.GetDirectoryName(this.databasePath);

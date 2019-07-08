@@ -15,7 +15,7 @@ namespace GSD.Common
 {
     public class GitHubUpgrader : ProductUpgrader
     {
-        private const string GitHubReleaseURL = @"https://api.github.com/repos/microsoft/vfsforgit/releases";
+        private const string GitHubReleaseURL = @"https://api.github.com/repos/microsoft/GSD/releases";
         private const string JSONMediaType = @"application/vnd.github.v3+json";
         private const string UserAgent = @"GSD_Auto_Upgrader";
         private const string CommonInstallerArgs = "/VERYSILENT /CLOSEAPPLICATIONS /SUPPRESSMSGBOXES /NORESTART";
@@ -32,7 +32,7 @@ namespace GSD.Common
         private static readonly HashSet<string> GSDInstallerFileNamePrefixCandidates = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "SetupGSD",
-            "VFSForGit"
+            "GSD"
         };
 
         private Version newestVersion;

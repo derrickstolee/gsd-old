@@ -345,8 +345,8 @@ namespace GSD.CommandLine
                 latestVersion = version;
 
                 string message = latestVersion == null ?
-                    $"Successfully checked for VFSForGit upgrades. Local version ({currentVersion}) is up-to-date." :
-                    $"Successfully checked for VFSForGit upgrades. A new version is available: {latestVersion}, local version is: {currentVersion}.";
+                    $"Successfully checked for GSD upgrades. Local version ({currentVersion}) is up-to-date." :
+                    $"Successfully checked for GSD upgrades. A new version is available: {latestVersion}, local version is: {currentVersion}.";
 
                 activity.RelatedInfo(message);
             }

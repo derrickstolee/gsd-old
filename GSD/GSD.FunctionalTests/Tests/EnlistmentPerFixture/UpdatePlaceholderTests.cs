@@ -135,7 +135,7 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
         {
             string testFile = Path.Combine(this.Enlistment.RepoRoot, "FullFilesDontAffectThePlaceholderDatabase");
 
-            string placeholderDatabase = Path.Combine(this.Enlistment.DotGSDRoot, "databases", "VFSForGit.sqlite");
+            string placeholderDatabase = Path.Combine(this.Enlistment.DotGSDRoot, "databases", "GSD.sqlite");
             string placeholdersBefore = GSDHelpers.GetAllSQLitePlaceholdersAsString(placeholderDatabase);
 
             this.fileSystem.CreateEmptyFile(testFile);

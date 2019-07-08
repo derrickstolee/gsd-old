@@ -92,9 +92,9 @@
   <UsingTask TaskName="GenerateInstallScripts" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v12.0.dll">
     <ParameterGroup>
       <GitInstallerFilename ParameterType="System.String" Required="true" />
-      <VFSForGitSetupFilename ParameterType="System.String" Required="true" />
+      <GSDSetupFilename ParameterType="System.String" Required="true" />
       <GitInstallBatPath ParameterType="System.String" Required="true" />
-      <VFSForGitInstallBatPath ParameterType="System.String" Required="true" />
+      <GSDInstallBatPath ParameterType="System.String" Required="true" />
       <UnifiedInstallBatPath ParameterType="System.String" Required="true" />
     </ParameterGroup>
     <Task>
@@ -194,9 +194,9 @@
       <Output TaskParameter="LatestInstallerFilename" PropertyName="G4WInstallerFilename" />
     </GenerateGitVersionConstants>
     <GenerateInstallScripts GitInstallerFilename="$(G4WInstallerFilename)"
-                            VFSForGitSetupFilename="$(GSDSetupFilename)"
+                            GSDSetupFilename="$(GSDSetupFilename)"
                             GitInstallBatPath="$(G4WInstallBatPath)"
-                            VFSForGitInstallBatPath="$(GSDInstallBatPath)"
+                            GSDInstallBatPath="$(GSDInstallBatPath)"
                             UnifiedInstallBatPath="$(UnifiedInstallBatPath)"/>
     <GenerateGSDInstallersNuspec GSDSetupPath="$(GSDSetupPath)" GitPackageVersion="$(GitPackageVersion)" PackagesPath="$(PackagesDir)" OutputFile="$(GSDInstallerNuspecPath)" />
     <Copy SourceFiles="$(G4WInstaller)" DestinationFiles="$(OutDir)\$(G4WInstallerFilename)" />

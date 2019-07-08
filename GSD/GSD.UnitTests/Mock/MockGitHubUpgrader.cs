@@ -67,7 +67,7 @@ namespace GSD.UnitTests.Mock.Upgrader
 
         public void PretendNewReleaseAvailableAtRemote(string upgradeVersion, GitHubUpgraderConfig.RingType remoteRing)
         {
-            string assetDownloadURLPrefix = "https://github.com/Microsoft/VFSForGit/releases/download/v" + upgradeVersion;
+            string assetDownloadURLPrefix = "https://github.com/Microsoft/GSD/releases/download/v" + upgradeVersion;
             Release release = new Release();
 
             release.Name = "GSD " + upgradeVersion;
@@ -77,11 +77,11 @@ namespace GSD.UnitTests.Mock.Upgrader
 
             Random random = new Random();
             Asset gvfsAsset = new Asset();
-            gvfsAsset.Name = "VFSForGit." + upgradeVersion + GSDPlatform.Instance.Constants.InstallerExtension;
+            gvfsAsset.Name = "GSD." + upgradeVersion + GSDPlatform.Instance.Constants.InstallerExtension;
 
             // This is not cross-checked anywhere, random value is good.
             gvfsAsset.Size = random.Next(int.MaxValue / 10, int.MaxValue / 2);
-            gvfsAsset.DownloadURL = new Uri(assetDownloadURLPrefix + "/VFSForGit." + upgradeVersion + GSDPlatform.Instance.Constants.InstallerExtension);
+            gvfsAsset.DownloadURL = new Uri(assetDownloadURLPrefix + "/GSD." + upgradeVersion + GSDPlatform.Instance.Constants.InstallerExtension);
             release.Assets.Add(gvfsAsset);
 
             Asset gitAsset = new Asset();

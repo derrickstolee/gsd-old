@@ -46,7 +46,7 @@ namespace GSD.Upgrader
         }
 
         // TODO: Move repo mount calls to GSD.Upgrader project.
-        // https://github.com/Microsoft/VFSForGit/issues/293
+        // https://github.com/Microsoft/GSD/issues/293
         public virtual bool TryMountAllGSDRepos(out string consoleError)
         {
             return this.TryRunGSDWithArgs("service --mount-all", out consoleError);

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-KEXTBUNDLEID="org.vfsforgit.PrjFSKext"
+KEXTBUNDLEID="org.GSD.PrjFSKext"
 isKextLoadedCmd="/usr/sbin/kextstat -l -b $KEXTBUNDLEID | wc -l"
 isKextLoaded=$(eval $isKextLoadedCmd)
 if [ "$isKextLoaded" -gt 0 ]; then

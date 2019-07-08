@@ -101,7 +101,7 @@ namespace GSD.FunctionalTests
                 excludeCategories.Add(Categories.MacOnly);
             }
 
-            GSDTestConfig.DotGSDRoot = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? ".vfsforgit" : ".gvfs";
+            GSDTestConfig.DotGSDRoot = RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ? ".GSD" : ".gvfs";
 
             GSDTestConfig.RepoToClone =
                 runner.GetCustomArgWithParam("--repo-to-clone")

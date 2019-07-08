@@ -97,7 +97,7 @@ namespace GSD.UnitTests.Common.Database
 
             Mock<IDbConnectionFactory> mockConnectionFactory = new Mock<IDbConnectionFactory>(MockBehavior.Strict);
             bool firstConnection = true;
-            string databasePath = Path.Combine("mock:root", ".mockvfsforgit", "databases", "VFSForGit.sqlite");
+            string databasePath = Path.Combine("mock:root", ".mockGSD", "databases", "GSD.sqlite");
             mockConnectionFactory.Setup(x => x.OpenNewConnection(databasePath)).Returns(() =>
             {
                 if (firstConnection)

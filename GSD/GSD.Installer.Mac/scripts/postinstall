@@ -28,7 +28,7 @@ function startOrRestartService()
 # been auto-loaded. If not, it will attempt to load it.
 # The BundleID of the Kext(ProjFS.Mac/PrjFS.xcodeproj) is defined in
 # ProjFS.Mac/PrjFS.xcodeproj project.
-KEXTBUNDLEID="org.vfsforgit.PrjFSKext"
+KEXTBUNDLEID="org.GSD.PrjFSKext"
 KEXTPATH="/Library/Extensions/PrjFSKext.kext"
 kextstatCmd="/usr/sbin/kextstat -l -b $KEXTBUNDLEID"
 kextstatOutput=$(eval $kextstatCmd)
@@ -45,7 +45,7 @@ else
     echo "$kextstatOutput"
 fi
 
-startOrRestartService "system" "org.vfsforgit.prjfs.PrjFSKextLogDaemon"
+startOrRestartService "system" "org.GSD.prjfs.PrjFSKextLogDaemon"
 
 # Load Launch Agents in all active User sessions
 # There will be one loginwindow instance for each logged in user, 
@@ -53,8 +53,8 @@ startOrRestartService "system" "org.vfsforgit.prjfs.PrjFSKextLogDaemon"
 # Then use launchctl bootstrap gui/uid to auto load the Service 
 # for each user.
 declare -a launchAgents=(
-    "org.vfsforgit.usernotification"
-    "org.vfsforgit.service"
+    "org.GSD.usernotification"
+    "org.GSD.service"
 )
 for uid in $(ps -Ac -o uid,command | grep -iw "loginwindow" | awk '{print $1}'); do
     for nextLaunchAgent in "${launchAgents[@]}"; do

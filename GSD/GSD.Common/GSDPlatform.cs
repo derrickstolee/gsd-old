@@ -39,7 +39,7 @@ namespace GSD.Common
         }
 
         /// <summary>
-        /// Starts a VFS for Git process in the background.
+        /// Starts a GSD process in the background.
         /// </summary>
         /// <remarks>
         /// This method should only be called by processes whose code we own as the background process must

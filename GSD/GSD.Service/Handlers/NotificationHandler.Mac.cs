@@ -7,7 +7,7 @@ namespace GSD.Service.Handlers
 {
     public class NotificationHandler : INotificationHandler
     {
-        private const string NotificationServerPipeName = "vfsforgit.notification";
+        private const string NotificationServerPipeName = "GSD.notification";
         private ITracer tracer;
 
         public NotificationHandler(ITracer tracer)

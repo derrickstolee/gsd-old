@@ -58,7 +58,7 @@ namespace GSD.Common.Maintenance
             numDeletionBlocked = 0;
             List<string> deletedIdxFiles = new List<string>();
 
-            // If something (probably VFS for Git) has a handle open to a ".idx" file, then
+            // If something (probably GSD) has a handle open to a ".idx" file, then
             // the 'git multi-pack-index expire' command cannot delete it. We should come in
             // later and try to clean these up. Count those that we are able to delete and
             // those we still can't.

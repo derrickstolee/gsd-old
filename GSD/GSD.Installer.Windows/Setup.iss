@@ -550,7 +550,7 @@ begin
     exit;
   end;
 
-  TargetFeed := Format('https://pkgs.dev.azure.com/microsoft/_packaging/VFSForGit-%s/nuget/v3/index.json', [RingName]);
+  TargetFeed := Format('https://pkgs.dev.azure.com/microsoft/_packaging/GSD-%s/nuget/v3/index.json', [RingName]);
   FeedPackageName := 'Microsoft.VfsForGitEnvironment';
 
   SetIfNotConfigured('upgrade.feedurl', TargetFeed);

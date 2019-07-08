@@ -13,7 +13,7 @@ namespace GSD.Platform.Mac
 {
     public partial class MacPlatform : POSIXPlatform
     {
-        private const string UpgradeProtectedDataDirectory = "/usr/local/vfsforgit_upgrader";
+        private const string UpgradeProtectedDataDirectory = "/usr/local/GSD_upgrader";
 
         public MacPlatform() : base(
              underConstruction: new UnderConstructionFlags(
@@ -134,7 +134,7 @@ namespace GSD.Platform.Mac
                 running = false;
             }
 
-            MacDaemonController.DaemonInfo gvfsService = daemons.FirstOrDefault(sc => string.Equals(sc.Name, "org.vfsforgit.service"));
+            MacDaemonController.DaemonInfo gvfsService = daemons.FirstOrDefault(sc => string.Equals(sc.Name, "org.GSD.service"));
             installed = gvfsService != null;
             running = installed && gvfsService.IsRunning;
         }
@@ -163,7 +163,7 @@ namespace GSD.Platform.Mac
 
             public override string GSDBinDirectoryName
             {
-                get { return "vfsforgit"; }
+                get { return "GSD"; }
             }
         }
     }
