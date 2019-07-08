@@ -355,7 +355,7 @@ function IsGSDRunning(): Boolean;
 var
   ResultCode: integer;
 begin
-  if Exec('powershell.exe', '-NoProfile "Get-Process gvfs,gvfs.mount | foreach {exit 10}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
+  if Exec('powershell.exe', '-NoProfile "Get-Process gsd,gsd.mount | foreach {exit 10}"', '', SW_HIDE, ewWaitUntilTerminated, ResultCode) then
     begin
       if ResultCode = 10 then
         begin
@@ -389,7 +389,7 @@ procedure UnmountRepos();
 var
   ResultCode: integer;
 begin
-  Exec('gvfs.exe', 'service --unmount-all', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  Exec('gsd.exe', 'service --unmount-all', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
 end;
 
 procedure MountRepos();
@@ -403,7 +403,7 @@ begin
   WizardForm.StatusLabel.Caption := 'Mounting Repos.';
   WizardForm.ProgressGauge.Style := npbstMarquee;
 
-  ExecWithResult(ExpandConstant('{app}') + '\gvfs.exe', 'service --mount-all', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, MountOutput);
+  ExecWithResult(ExpandConstant('{app}') + '\gsd.exe', 'service --mount-all', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, MountOutput);
   WizardForm.StatusLabel.Caption := StatusText;
   WizardForm.ProgressGauge.Style := npbstNormal;
   
@@ -428,7 +428,7 @@ var
   MsgBoxText: string;
 begin
   Result := False;
-  if ExecWithResult('gvfs.exe', 'service --list-mounted', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, Repos) then
+  if ExecWithResult('gsd.exe', 'service --list-mounted', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, Repos) then
     begin
       if Repos = '' then
         begin
@@ -483,7 +483,7 @@ var
   ResultString: ansiString;
 begin
   Result := urUnconfigured;
-  if ExecWithResult('gvfs.exe', 'config upgrade.ring', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, ResultString) then begin
+  if ExecWithResult('gsd.exe', 'config upgrade.ring', '', SW_HIDE, ewWaitUntilTerminated, ResultCode, ResultString) then begin
     if ResultCode = 0 then begin
       ResultString := AnsiLowercase(Trim(ResultString));
       Log('GetConfiguredUpgradeRing: upgrade.ring is ' + ResultString);
@@ -510,7 +510,7 @@ var
   ResultString: ansiString;
 begin
   Result := False
-  if ExecWithResult('gvfs.exe', Format('config %s', [ConfigKey]), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, ResultString) then begin
+  if ExecWithResult('gsd.exe', Format('config %s', [ConfigKey]), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, ResultString) then begin
     ResultString := AnsiLowercase(Trim(ResultString));
     Log(Format('IsConfigured(%s): value is %s', [ConfigKey, ResultString]));
     Result := Length(ResultString) > 1
@@ -523,7 +523,7 @@ var
   ResultString: ansiString;
 begin
   if IsConfigured(ConfigKey) = False then begin
-    if ExecWithResult('gvfs.exe', Format('config %s %s', [ConfigKey, ConfigValue]), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, ResultString) then begin
+    if ExecWithResult('gsd.exe', Format('config %s %s', [ConfigKey, ConfigValue]), '', SW_HIDE, ewWaitUntilTerminated, ResultCode, ResultString) then begin
       Log(Format('SetIfNotConfigured: Set %s to %s', [ConfigKey, ConfigValue]));
     end else begin
       Log(Format('SetIfNotConfigured: Failed to set %s with %s', [ConfigKey, SysErrorMessage(ResultCode)]));
