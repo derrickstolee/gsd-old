@@ -239,6 +239,9 @@ namespace GSD.CommandLine
                                 verb.ResolvedCacheServer = cacheServer;
                                 verb.DownloadedGSDConfig = serverGSDConfig;
                             });
+
+                        GitProcess git = new GitProcess(enlistment);
+                        git.ForceCheckoutAllFiles();
                     }
                 }
                 else
@@ -268,17 +271,6 @@ namespace GSD.CommandLine
             }
 
             Environment.Exit(exitCode);
-        }
-
-        private static bool IsForceCheckoutErrorCloneFailure(string checkoutError)
-        {
-            if (string.IsNullOrWhiteSpace(checkoutError) ||
-                checkoutError.Contains("Already on"))
-            {
-                return false;
-            }
-
-            return true;
         }
 
         private Result TryCreateEnlistment(
@@ -563,6 +555,7 @@ namespace GSD.CommandLine
                 return new Result(installHooksError);
             }
 
+            // TODO: Move this to be after the mount?
             GitProcess.Result forceCheckoutResult = git.ForceCheckout(branch);
             if (forceCheckoutResult.ExitCodeIsFailure && forceCheckoutResult.Errors.IndexOf("unable to read tree") > 0)
             {
@@ -586,26 +579,6 @@ namespace GSD.CommandLine
                 }
 
                 forceCheckoutResult = git.ForceCheckout(branch);
-            }
-
-            if (forceCheckoutResult.ExitCodeIsFailure)
-            {
-                string[] errorLines = forceCheckoutResult.Errors.Split('\n');
-                StringBuilder checkoutErrors = new StringBuilder();
-                foreach (string gitError in errorLines)
-                {
-                    if (IsForceCheckoutErrorCloneFailure(gitError))
-                    {
-                        checkoutErrors.AppendLine(gitError);
-                    }
-                }
-
-                if (checkoutErrors.Length > 0)
-                {
-                    string error = "Could not complete checkout of branch: " + branch + ", " + checkoutErrors.ToString();
-                    tracer.RelatedError(error);
-                    return new Result(error);
-                }
             }
 
             if (!RepoMetadata.TryInitialize(tracer, enlistment.DotGSDRoot, out errorMessage))

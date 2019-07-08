@@ -468,6 +468,11 @@ namespace GSD.Common.Git
             return this.InvokeGitInWorkingDirectoryRoot("checkout -f " + target, useReadObjectHook: false);
         }
 
+        public Result ForceCheckoutAllFiles()
+        {
+            return this.InvokeGitInWorkingDirectoryRoot("checkout HEAD -- .", useReadObjectHook: true);
+        }
+
         public Result Status(bool allowObjectDownloads, bool useStatusCache, bool showUntracked = false)
         {
             string command = "status";

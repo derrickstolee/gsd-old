@@ -1,12 +1,9 @@
 using GSD.Common;
-using GSD.Common.Git;
 using GSD.Common.NamedPipes;
 using GSD.Hooks.HooksPlatform;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Security;
 
 namespace GSD.Hooks
 {
@@ -58,18 +55,10 @@ namespace GSD.Hooks
                 {
                     case PreCommandHook:
                         CheckForLegalCommands(args);
-                        RunLockRequest(args, unattended, AcquireGSDLockForProcess);
                         RunPreCommands(args);
                         break;
 
                     case PostCommandHook:
-                        // Do not release the lock if this request was only run to see if it could acquire the GSDLock,
-                        // but did not actually acquire it.
-                        if (!CheckGSDLockAvailabilityOnly(args))
-                        {
-                            RunLockRequest(args, unattended, ReleaseGSDLock);
-                        }
-
                         RunPostCommands(args, unattended);
                         break;
 
@@ -199,96 +188,6 @@ namespace GSD.Hooks
             return Program.InvalidProcessId;
         }
 
-        private static void AcquireGSDLockForProcess(bool unattended, string[] args, int pid, NamedPipeClient pipeClient)
-        {
-            string result;
-            bool checkGvfsLockAvailabilityOnly = CheckGSDLockAvailabilityOnly(args);
-            string fullCommand = GenerateFullCommand(args);
-            string gitCommandSessionId = GetGitCommandSessionId();
-
-            if (!GSDLock.TryAcquireGSDLockForProcess(
-                    unattended,
-                    pipeClient,
-                    fullCommand,
-                    pid,
-                    GSDHooksPlatform.IsElevated(),
-                    isConsoleOutputRedirectedToFile: GSDHooksPlatform.IsConsoleOutputRedirectedToFile(),
-                    checkAvailabilityOnly: checkGvfsLockAvailabilityOnly,
-                    gvfsEnlistmentRoot: null,
-                    gitCommandSessionId: gitCommandSessionId,
-                    result: out result))
-            {
-                ExitWithError(result);
-            }
-        }
-
-        private static void ReleaseGSDLock(bool unattended, string[] args, int pid, NamedPipeClient pipeClient)
-        {
-            string fullCommand = GenerateFullCommand(args);
-
-            GSDLock.ReleaseGSDLock(
-                unattended,
-                pipeClient,
-                fullCommand,
-                pid,
-                GSDHooksPlatform.IsElevated(),
-                GSDHooksPlatform.IsConsoleOutputRedirectedToFile(),
-                response =>
-                {
-                    if (response == null || response.ResponseData == null)
-                    {
-                        Console.WriteLine("\nError communicating with GSD: Run 'git status' to check the status of your repo");
-                    }
-                    else if (response.ResponseData.HasFailures)
-                    {
-                        if (response.ResponseData.FailureCountExceedsMaxFileNames)
-                        {
-                            Console.WriteLine(
-                                "\nGSD failed to update {0} files, run 'git status' to check the status of files in the repo",
-                                response.ResponseData.FailedToDeleteCount + response.ResponseData.FailedToUpdateCount);
-                        }
-                        else
-                        {
-                            string deleteFailuresMessage = BuildUpdatePlaceholderFailureMessage(response.ResponseData.FailedToDeleteFileList, "delete", "git clean -f ");
-                            if (deleteFailuresMessage.Length > 0)
-                            {
-                                Console.WriteLine(deleteFailuresMessage);
-                            }
-
-                            string updateFailuresMessage = BuildUpdatePlaceholderFailureMessage(response.ResponseData.FailedToUpdateFileList, "update", "git checkout -- ");
-                            if (updateFailuresMessage.Length > 0)
-                            {
-                                Console.WriteLine(updateFailuresMessage);
-                            }
-                        }
-                    }
-                },
-                gvfsEnlistmentRoot: null,
-                waitingMessage: "Waiting for GSD to parse index and update placeholder files",
-                spinnerDelay: PostCommandSpinnerDelayMs);
-        }
-
-        private static bool CheckGSDLockAvailabilityOnly(string[] args)
-        {
-            try
-            {
-                // Don't acquire the GSD lock if the git command is not acquiring locks.
-                // This enables tools to run status commands without to the index and
-                // blocking other commands from running. The git argument
-                // "--no-optional-locks" results in a 'negative'
-                // value GIT_OPTIONAL_LOCKS environment variable.
-                return GetGitCommand(args).Equals("status", StringComparison.OrdinalIgnoreCase) &&
-                    (args.Any(arg => arg.Equals("--no-lock-index", StringComparison.OrdinalIgnoreCase)) ||
-                    IsGitEnvVarDisabled("GIT_OPTIONAL_LOCKS"));
-            }
-            catch (Exception e)
-            {
-                ExitWithError("Failed to determine if GSD should aquire GSD lock: " + e.ToString());
-            }
-
-            return false;
-        }
-
         private static string BuildUpdatePlaceholderFailureMessage(List<string> fileList, string failedOperation, string recoveryCommand)
         {
             if (fileList == null || fileList.Count == 0)
@@ -325,17 +224,17 @@ namespace GSD.Hooks
 
         private static bool IsGitEnvVarDisabled(string envVar)
         {
-                string envVarValue = Environment.GetEnvironmentVariable(envVar);
-                if (!string.IsNullOrEmpty(envVarValue))
+            string envVarValue = Environment.GetEnvironmentVariable(envVar);
+            if (!string.IsNullOrEmpty(envVarValue))
+            {
+                if (string.Equals(envVarValue, "false", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(envVarValue, "no", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(envVarValue, "off", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(envVarValue, "0", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (string.Equals(envVarValue, "false", StringComparison.OrdinalIgnoreCase) ||
-                        string.Equals(envVarValue, "no", StringComparison.OrdinalIgnoreCase) ||
-                        string.Equals(envVarValue, "off", StringComparison.OrdinalIgnoreCase) ||
-                        string.Equals(envVarValue, "0", StringComparison.OrdinalIgnoreCase))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
+            }
 
             return false;
         }
