@@ -16,8 +16,6 @@ namespace GSD.Common.FileSystem
         private static readonly HookData[] NativeHooks = new[]
         {
             new HookData(GSDConstants.DotGit.Hooks.ReadObjectName, GSDConstants.DotGit.Hooks.ReadObjectPath, GSDPlatform.Instance.Constants.GSDReadObjectHookExecutableName),
-            new HookData(GSDConstants.DotGit.Hooks.VirtualFileSystemName, GSDConstants.DotGit.Hooks.VirtualFileSystemPath, GSDPlatform.Instance.Constants.GSDVirtualFileSystemHookExecutableName),
-            new HookData(GSDConstants.DotGit.Hooks.PostIndexChangedName, GSDConstants.DotGit.Hooks.PostIndexChangedPath, GSDPlatform.Instance.Constants.GSDPostIndexChangedHookExecutableName),
         };
 
         static HooksInstaller()

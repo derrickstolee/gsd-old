@@ -12,8 +12,6 @@
 #define ServiceUIDir BuildOutputDir + "\GSD.Service.UI\bin\" + PlatformAndConfiguration
 #define GSDMountDir BuildOutputDir + "\GSD.Mount.Windows\bin\" + PlatformAndConfiguration
 #define ReadObjectDir BuildOutputDir + "\GSD.ReadObjectHook.Windows\bin\" + PlatformAndConfiguration
-#define VirtualFileSystemDir BuildOutputDir + "\GSD.VirtualFileSystemHook.Windows\bin\" + PlatformAndConfiguration
-#define PostIndexChangedDir BuildOutputDir + "\GSD.PostIndexChangedHook.Windows\bin\" + PlatformAndConfiguration
 #define GSDUpgraderDir BuildOutputDir + "\GSD.Upgrader\bin\" + PlatformAndConfiguration + "\net461"
 
 #define MyAppName "GSD"
