@@ -7,12 +7,12 @@ if [ -z $CONFIGURATION ]; then
   CONFIGURATION=Debug
 fi
 
-sudo mkdir /GVFS.FT
-sudo chown $USER /GVFS.FT
+sudo mkdir /GSD.FT
+sudo chown $USER /GSD.FT
 
 if [ "$2" != "--test-gvfs-on-path" ]; then
   echo "Calling LoadPrjFSKext.sh as --test-gvfs-on-path not set..."
   $VFS_SRCDIR/ProjFS.Mac/Scripts/LoadPrjFSKext.sh $CONFIGURATION
 fi
 
-$VFS_PUBLISHDIR/GVFS.FunctionalTests --full-suite $2
+$VFS_PUBLISHDIR/GSD.FunctionalTests --full-suite $2

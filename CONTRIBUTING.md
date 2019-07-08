@@ -39,9 +39,9 @@ The design review process is as follows:
 
   Cross-platform code is more easily reused.  Reusing code reduces the amount of code that must be written, tested, and maintained.
 
-- *Platform specific code, and only platform specific code, should go in `GVFSPlatform`*
+- *Platform specific code, and only platform specific code, should go in `GSDPlatform`*
 
-  When platform specific code is required, it should be placed in `GVFSPlatform` or one of the platforms it contains (e.g. `IKernelDriver`)
+  When platform specific code is required, it should be placed in `GSDPlatform` or one of the platforms it contains (e.g. `IKernelDriver`)
 
 ## Tracing and Logging
 
@@ -171,7 +171,7 @@ The design review process is as follows:
 
 - *Avoid using the thread pool (and avoid using async)*
 
-  `HttpRequestor.SendRequest` makes a [blocking call](https://github.com/Microsoft/VFSForGit/blob/4baa37df6bde2c9a9e1917fc7ce5debd653777c0/GVFS/GVFS.Common/Http/HttpRequestor.cs#L135) to `HttpClient.SendAsync`.  That blocking call consumes a thread from the managed thread pool.  Until that design changes, the rest of VFS4G must avoid using the thread pool unless absolutely necessary.  If the thread pool is required, any long running tasks should be moved to a separate thread managed by VFS4G itself (see [GitMaintenanceQueue](https://github.com/Microsoft/VFSForGit/blob/4baa37df6bde2c9a9e1917fc7ce5debd653777c0/GVFS/GVFS.Common/Maintenance/GitMaintenanceQueue.cs#L19) for an example).
+  `HttpRequestor.SendRequest` makes a [blocking call](https://github.com/Microsoft/VFSForGit/blob/4baa37df6bde2c9a9e1917fc7ce5debd653777c0/GSD/GSD.Common/Http/HttpRequestor.cs#L135) to `HttpClient.SendAsync`.  That blocking call consumes a thread from the managed thread pool.  Until that design changes, the rest of VFS4G must avoid using the thread pool unless absolutely necessary.  If the thread pool is required, any long running tasks should be moved to a separate thread managed by VFS4G itself (see [GitMaintenanceQueue](https://github.com/Microsoft/VFSForGit/blob/4baa37df6bde2c9a9e1917fc7ce5debd653777c0/GSD/GSD.Common/Maintenance/GitMaintenanceQueue.cs#L19) for an example).
 
   Long-running or blocking work scheduled on the managed thread pool can prevent the normal operation of VFS4G.  For example, it could prevent downloading file sizes, loose objects, or file contents in a timely fashion.
 
@@ -179,7 +179,7 @@ The design review process is as follows:
 
   Wrap all code that runs in the background thread in a top-level `try/catch(Exception)`.  Any exceptions caught by this handler should be logged, and then VFS4G should be forced to terminate with `Environment.Exit`.  It's not safe to allow VFS4G to continue to run after an unhandled exception stops a background thread or long-running task.  Testing has shown that `Environment.Exit` consistently terminates the VFS4G mount process regardless of how background threads are started (e.g. native thread, `new Thread()`, `Task.Factory.StartNew()`).
 
-  An example of this pattern can be seen in [`BackgroundFileSystemTaskRunner.ProcessBackgroundTasks`](https://github.com/Microsoft/VFSForGit/blob/4baa37df6bde2c9a9e1917fc7ce5debd653777c0/GVFS/GVFS.Virtualization/Background/BackgroundFileSystemTaskRunner.cs#L233).
+  An example of this pattern can be seen in [`BackgroundFileSystemTaskRunner.ProcessBackgroundTasks`](https://github.com/Microsoft/VFSForGit/blob/4baa37df6bde2c9a9e1917fc7ce5debd653777c0/GSD/GSD.Virtualization/Background/BackgroundFileSystemTaskRunner.cs#L233).
 
 ## Coding Conventions
 
@@ -221,7 +221,7 @@ The design review process is as follows:
 
   ```
   // Check if enumeration expands directories on the current platform
-  if (GVFSPlatform.Instance.KernelDriver.EnumerationExpandsDirectories)
+  if (GSDPlatform.Instance.KernelDriver.EnumerationExpandsDirectories)
   ```
 
 - *Add new interfaces when it makes sense for the product, not simply for unit testing*

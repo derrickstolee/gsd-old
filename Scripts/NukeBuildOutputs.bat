@@ -1,19 +1,19 @@
 @ECHO OFF
 CALL %~dp0\InitializeEnvironment.bat || EXIT /b 10
 
-taskkill /f /im GVFS.Mount.exe 2>&1
+taskkill /f /im GSD.Mount.exe 2>&1
 verify >nul
 
 powershell -NonInteractive -NoProfile -Command "& { (Get-MpPreference).ExclusionPath | ? {$_.StartsWith('C:\Repos\')} | %%{Remove-MpPreference -ExclusionPath $_} }"
 
-IF EXIST C:\Repos\GVFSFunctionalTests\enlistment (
-    rmdir /s /q C:\Repos\GVFSFunctionalTests\enlistment
+IF EXIST C:\Repos\GSDFunctionalTests\enlistment (
+    rmdir /s /q C:\Repos\GSDFunctionalTests\enlistment
 ) ELSE (
     ECHO no test enlistment found
 )
 
-IF EXIST C:\Repos\GVFSPerfTest (
-    rmdir /s /q C:\Repos\GVFSPerfTest
+IF EXIST C:\Repos\GSDPerfTest (
+    rmdir /s /q C:\Repos\GSDPerfTest
 ) ELSE (
     ECHO no perf test enlistment found
 )

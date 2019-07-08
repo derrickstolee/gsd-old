@@ -4,8 +4,8 @@ if [ -z $1 ]; then
   echo "Version Number not defined for CommonAssemblyVersion.cs"
 fi
 
-# Update the version number in GVFS.props for other consumers of GVFSVersion
-sed -i "" -E "s@<GVFSVersion>[0-9]+(\.[0-9]+)*</GVFSVersion>@<GVFSVersion>$1</GVFSVersion>@g" $VFS_SRCDIR/GVFS/GVFS.Build/GVFS.props
+# Update the version number in GSD.props for other consumers of GSDVersion
+sed -i "" -E "s@<GSDVersion>[0-9]+(\.[0-9]+)*</GSDVersion>@<GSDVersion>$1</GSDVersion>@g" $VFS_SRCDIR/GSD/GSD.Build/GSD.props
 
 # Then generate CommonAssemblyVersion.cs
 cat >$VFS_OUTPUTDIR/CommonAssemblyVersion.cs <<TEMPLATE

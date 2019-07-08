@@ -4,20 +4,20 @@
 
 #### Runnable functional test projects
 
-- `GVFS.FunctionalTests`
-- `GVFS.FunctionalTests.Windows`
+- `GSD.FunctionalTests`
+- `GSD.FunctionalTests.Windows`
 
-`GVFS.FunctionalTests` is a .NET Core project and contains all cross-platform functional tests.  `GVFS.FunctionalTests.Windows`, contains functional tests that require Windows. Additionally, `GVFS.FunctionalTests.Windows` includes all the `GVFS.FunctionalTests` allowing it to run both cross-platform and Windows-specific functional tests.
+`GSD.FunctionalTests` is a .NET Core project and contains all cross-platform functional tests.  `GSD.FunctionalTests.Windows`, contains functional tests that require Windows. Additionally, `GSD.FunctionalTests.Windows` includes all the `GSD.FunctionalTests` allowing it to run both cross-platform and Windows-specific functional tests.
 
 #### Other functional test projects
 
-*GVFS.NativeTests*
+*GSD.NativeTests*
 
-`GVFS.NativeTests` contains tests written in C++ that use the Windows API directly.  These tests are called from the managed tests (see above) using PInvoke.
+`GSD.NativeTests` contains tests written in C++ that use the Windows API directly.  These tests are called from the managed tests (see above) using PInvoke.
 
-*GVFS.FunctionalTests.LockHolder*
+*GSD.FunctionalTests.LockHolder*
 
-The `LockHolder` is a small program that allows the functional tests to request and release the `GVFSLock`.  `LockHolder` is useful for simulating different timing/race conditions.
+The `LockHolder` is a small program that allows the functional tests to request and release the `GSDLock`.  `LockHolder` is useful for simulating different timing/race conditions.
 
 ## Running the Functional Tests
 
@@ -27,14 +27,14 @@ The functional tests are built on NUnit 3, which is available as a set of NuGet 
 
 1. Build VFS for Git:
     
-    **Option 1:** Open GVFS.sln in Visual Studio and build everything.
+    **Option 1:** Open GSD.sln in Visual Studio and build everything.
     
-    **Option 2:** Run `Scripts\BuildGVFSForWindows.bat` from the command line
+    **Option 2:** Run `Scripts\BuildGSDForWindows.bat` from the command line
 
-2. Run the VFS4G installer that was built in step 2.  This will ensure that ProjFS is properly installed/enabled on your machine, and that VFS4G will be able to find the correct version of the pre/post-command hooks. The installer will be placed in `BuildOutput\GVFS.Installer.Windows\bin\x64\<Debug or Release>`
+2. Run the VFS4G installer that was built in step 2.  This will ensure that ProjFS is properly installed/enabled on your machine, and that VFS4G will be able to find the correct version of the pre/post-command hooks. The installer will be placed in `BuildOutput\GSD.Installer.Windows\bin\x64\<Debug or Release>`
 3. Run the tests **with elevation**.  Elevation is required because the functional tests create and delete a test service.
 
-   **Option 1:** Run the `GVFS.FunctionalTests.Windows` project from inside Visual Studio launched as Administrator.
+   **Option 1:** Run the `GSD.FunctionalTests.Windows` project from inside Visual Studio launched as Administrator.
    
    **Option 2:** Run `Scripts\RunFunctionalTests.bat` from CMD launched as Administrator.
 
@@ -50,16 +50,16 @@ By default, the functional tests run a subset of tests as a quick smoke test for
 
 ### Mac
 
-1. Build VFS for Git: `Scripts/Mac/BuildGVFSForMac.sh`
+1. Build VFS for Git: `Scripts/Mac/BuildGSDForMac.sh`
 2. Run the tests: `Scripts/Mac/RunFunctionalTests.sh `
 
 If you need the VS for Mac debugger attached for a functional test run:
 
 1. Make sure you've built your latest changes
 2. Run `./ProjFS.Mac/Scripts/LoadPrjFSKext.sh`
-3. Open GVFS.sln in VS for Mac
+3. Open GSD.sln in VS for Mac
 4. Run->Run With->Custom Configuration...
-5. Select "Start external program" and specify the published functional test binary (e.g. `/Users/<USERNAME>/Repos/VFSForGit/Publish/GVFS.FunctionalTests`)
+5. Select "Start external program" and specify the published functional test binary (e.g. `/Users/<USERNAME>/Repos/VFSForGit/Publish/GSD.FunctionalTests`)
 6. Specify any desired arguments (e.g. [a specific test](#Running-Specific-Tests) )
 7. Run Action -> "Debug - .Net Core Debugger"
 8. Click "Debug"
@@ -67,7 +67,7 @@ If you need the VS for Mac debugger attached for a functional test run:
 ### Customizing the Functional Test Settings
 
 The functional tests take a set of parameters that indicate what paths and URLs to work with.  If you want to customize those settings, they
-can be found in [`GVFS.FunctionalTests\Settings.cs`](/GVFS/GVFS.FunctionalTests/Settings.cs).
+can be found in [`GSD.FunctionalTests\Settings.cs`](/GSD/GSD.FunctionalTests/Settings.cs).
 
 
 ## Running Specific Tests
@@ -80,16 +80,16 @@ Note that the test name must include the class and namespace and that `Debug` or
 
 Windows (Script):
 
-`Scripts\RunFunctionalTests.bat Debug --test=GVFS.FunctionalTests.Tests.EnlistmentPerFixture.GitFilesTests.CreateFileTest`
+`Scripts\RunFunctionalTests.bat Debug --test=GSD.FunctionalTests.Tests.EnlistmentPerFixture.GitFilesTests.CreateFileTest`
 
 Windows (Visual Studio):
 
-1. Set `GVFS.FunctionalTests.Windows` as StartUp project
-2. Project Properties->Debug->Start options->Command line arguments (all on a single line): `--test=GVFS.FunctionalTests.Tests.EnlistmentPerFixture.GitFilesTests.CreateFileTest`
+1. Set `GSD.FunctionalTests.Windows` as StartUp project
+2. Project Properties->Debug->Start options->Command line arguments (all on a single line): `--test=GSD.FunctionalTests.Tests.EnlistmentPerFixture.GitFilesTests.CreateFileTest`
 
 Mac:
 
-`Scripts/Mac/RunFunctionalTests.sh Debug --test=GVFS.FunctionalTests.Tests.EnlistmentPerFixture.GitFilesTests.CreateFileTest`
+`Scripts/Mac/RunFunctionalTests.sh Debug --test=GSD.FunctionalTests.Tests.EnlistmentPerFixture.GitFilesTests.CreateFileTest`
 
 ## How to Write a Functional Test
 
