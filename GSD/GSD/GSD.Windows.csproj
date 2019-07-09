@@ -113,6 +113,7 @@
     <Compile Include="CommandLine\CacheServerVerb.cs" />
     <Compile Include="CommandLine\CloneVerb.cs" />
     <Compile Include="CommandLine\ConfigVerb.cs" />
+    <Compile Include="CommandLine\DehydrateVerb.cs" />
     <Compile Include="CommandLine\DiagnoseVerb.cs" />
     <Compile Include="CommandLine\GSDVerb.cs" />
     <Compile Include="CommandLine\LogVerb.cs" />
