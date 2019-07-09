@@ -19,12 +19,12 @@ namespace GSD.FunctionalTests.Tests.GitCommands
         private const string TopLevelFolderToCreate = "level1";
         private const string SubFolderToCreate = "level2";
 
-        private static readonly string EditFilePath = Path.Combine("GSD", "GSD.Common", "GSDContext.cs");
-        private static readonly string DeleteFilePath = Path.Combine("GSD", "GSD", "Program.cs");
-        private static readonly string RenameFilePathFrom = Path.Combine("GSD", "GSD.Common", "Physical", "FileSystem", "FileProperties.cs");
-        private static readonly string RenameFilePathTo = Path.Combine("GSD", "GSD.Common", "Physical", "FileSystem", "FileProperties2.cs");
-        private static readonly string RenameFolderPathFrom = Path.Combine("GSD", "GSD.Common", "PrefetchPacks");
-        private static readonly string RenameFolderPathTo = Path.Combine("GSD", "GSD.Common", "PrefetchPacksRenamed");
+        private static readonly string EditFilePath = Path.Combine("GVFS", "GVFS.Common", "GVFSContext.cs");
+        private static readonly string DeleteFilePath = Path.Combine("GVFS", "GVFS", "Program.cs");
+        private static readonly string RenameFilePathFrom = Path.Combine("GVFS", "GVFS.Common", "Physical", "FileSystem", "FileProperties.cs");
+        private static readonly string RenameFilePathTo = Path.Combine("GVFS", "GVFS.Common", "Physical", "FileSystem", "FileProperties2.cs");
+        private static readonly string RenameFolderPathFrom = Path.Combine("GVFS", "GVFS.Common", "PrefetchPacks");
+        private static readonly string RenameFolderPathTo = Path.Combine("GVFS", "GVFS.Common", "PrefetchPacksRenamed");
 
         public GitCommandsTests(bool validateWorkingTree)
             : base(enlistmentPerTest: false, validateWorkingTree: validateWorkingTree)
@@ -316,7 +316,7 @@ namespace GSD.FunctionalTests.Tests.GitCommands
         public void AddFileAndCommitOnNewBranchSwitchDeleteFolderAndSwitchBack()
         {
             // 663045 - Confirm that folder can be deleted after adding a file then changing branches
-            string newFileParentFolderPath = Path.Combine("GSD", "GSD", "CommandLine");
+            string newFileParentFolderPath = Path.Combine("GVFS", "GVFS", "CommandLine");
             string newFilePath = Path.Combine(newFileParentFolderPath, "testfile.txt");
             string newFileContents = "test contents";
 
@@ -575,7 +575,7 @@ namespace GSD.FunctionalTests.Tests.GitCommands
         {
             this.ValidateGitCommand("checkout -b tests/functional/AddFileCommitThenDeleteAndCommit_before");
             this.ValidateGitCommand("checkout -b tests/functional/AddFileCommitThenDeleteAndCommit_after");
-            string filePath = Path.Combine("GSD", "testfile.txt");
+            string filePath = Path.Combine("GVFS", "testfile.txt");
             this.CreateFile("Some new content for the file", filePath);
             this.ValidateGitCommand("status");
             this.ValidateGitCommand("add .");
@@ -594,7 +594,7 @@ namespace GSD.FunctionalTests.Tests.GitCommands
         public void AddFileCommitThenDeleteAndResetSoft()
         {
             this.ValidateGitCommand("checkout -b tests/functional/AddFileCommitThenDeleteAndResetSoft");
-            string filePath = Path.Combine("GSD", "testfile.txt");
+            string filePath = Path.Combine("GVFS", "testfile.txt");
             this.CreateFile("Some new content for the file", filePath);
             this.ValidateGitCommand("status");
             this.ValidateGitCommand("add .");
@@ -608,7 +608,7 @@ namespace GSD.FunctionalTests.Tests.GitCommands
         public void AddFileCommitThenDeleteAndResetMixed()
         {
             this.ValidateGitCommand("checkout -b tests/functional/AddFileCommitThenDeleteAndResetSoft");
-            string filePath = Path.Combine("GSD", "testfile.txt");
+            string filePath = Path.Combine("GVFS", "testfile.txt");
             this.CreateFile("Some new content for the file", filePath);
             this.ValidateGitCommand("status");
             this.ValidateGitCommand("add .");

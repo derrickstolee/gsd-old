@@ -3,9 +3,7 @@ using GSD.FunctionalTests.Should;
 using GSD.FunctionalTests.Tools;
 using GSD.Tests.Should;
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 
@@ -163,7 +161,7 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
         [TestCase, Order(7)]
         public void ReadingFileDoesNotUpdateIndexOrModifiedPaths()
         {
-            string gitFileToCheck = "GSD/GSD.FunctionalTests/Category/CategoryConstants.cs";
+            string gitFileToCheck = "GVFS/GVFS.FunctionalTests/Category/CategoryConstants.cs";
             string virtualFile = this.Enlistment.GetVirtualPathTo(gitFileToCheck);
             ProcessResult initialResult = GitProcess.InvokeProcess(this.Enlistment.RepoRoot, "ls-files --debug -svmodc " + gitFileToCheck);
             initialResult.ShouldNotBeNull();
@@ -190,7 +188,7 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
         [TestCase, Order(8)]
         public void ModifiedFileWillGetAddedToModifiedPathsFile()
         {
-            string gitFileToTest = "GSD/GSD.Common/RetryWrapper.cs";
+            string gitFileToTest = "GVFS/GVFS.Common/RetryWrapper.cs";
             string fileToCreate = this.Enlistment.GetVirtualPathTo(gitFileToTest);
             this.VerifyWorktreeBit(gitFileToTest, LsFilesStatus.SkipWorktree);
 
@@ -452,7 +450,7 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
         [TestCase, Order(21)]
         public void HardlinkExistingFileInRepo()
         {
-            string fileName = "GSD/GSD.Mount/Program.cs";
+            string fileName = "GVFS/GVFS.Mount/Program.cs";
             string fileNameLink = "HardLinkToReadme";
             GSDHelpers.ModifiedPathsShouldNotContain(this.Enlistment, this.fileSystem, fileName);
             GSDHelpers.ModifiedPathsShouldNotContain(this.Enlistment, this.fileSystem, fileNameLink);

@@ -495,61 +495,6 @@ namespace GSD.FunctionalTests.Tests.GitCommands
         }
 
         [TestCase]
-        public void CheckoutBranchWithOpenHandleBlockingProjectionDeleteAndRepoMetdataUpdate()
-        {
-            this.ControlGitRepo.Fetch(GitRepoTests.ConflictSourceBranch);
-            this.ControlGitRepo.Fetch(GitRepoTests.ConflictTargetBranch);
-
-            this.Enlistment.UnmountGSD();
-            string gitIndexPath = Path.Combine(this.Enlistment.RepoRoot, ".git", "index");
-            CopyIndexAndRename(gitIndexPath);
-            this.Enlistment.MountGSD();
-
-            ManualResetEventSlim testReady = new ManualResetEventSlim(initialState: false);
-            ManualResetEventSlim fileLocked = new ManualResetEventSlim(initialState: false);
-            Task task = Task.Run(() =>
-            {
-                int attempts = 0;
-                while (attempts < 100)
-                {
-                    try
-                    {
-                        using (FileStream projectionStream = new FileStream(Path.Combine(this.Enlistment.DotGSDRoot, "GSD_projection"), FileMode.Open, FileAccess.Read, FileShare.None))
-                        using (FileStream metadataStream = new FileStream(Path.Combine(this.Enlistment.DotGSDRoot, "databases", "RepoMetadata.dat"), FileMode.Open, FileAccess.Read, FileShare.None))
-                        {
-                            fileLocked.Set();
-                            testReady.Set();
-                            Thread.Sleep(15000);
-                            return;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        ++attempts;
-                        Thread.Sleep(50);
-                    }
-                }
-
-                testReady.Set();
-            });
-
-            // Wait for task to acquire the handle
-            testReady.Wait();
-            fileLocked.IsSet.ShouldBeTrue("Failed to obtain exclusive file handle.  Exclusive handle required to validate behavior");
-
-            try
-            {
-                this.ValidateGitCommand("checkout " + GitRepoTests.ConflictTargetBranch);
-            }
-            catch (Exception)
-            {
-                // If the test fails, we should wait for the Task to complete so that it does not keep a handle open
-                task.Wait();
-                throw;
-            }
-        }
-
-        [TestCase]
         public void CheckoutBranchWithStaleRepoMetadataTmpFileOnDisk()
         {
             this.ControlGitRepo.Fetch(GitRepoTests.ConflictSourceBranch);

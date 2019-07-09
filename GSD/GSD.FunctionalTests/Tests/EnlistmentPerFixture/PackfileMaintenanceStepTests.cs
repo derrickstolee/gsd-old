@@ -64,7 +64,7 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
         {
             // Create new pack(s) by prefetching blobs for a folder.
             // This generates a number of packs, based on the processor number (for parallel downloads).
-            this.Enlistment.Prefetch($"--folders {Path.Combine("GSD", "GSD")}");
+            this.Enlistment.Prefetch($"--folders {Path.Combine("GVFS", "GVFS")}");
 
             // Create a multi-pack-index that covers the prefetch packs
             // (The post-fetch job creates a multi-pack-index only after a --commits prefetch)

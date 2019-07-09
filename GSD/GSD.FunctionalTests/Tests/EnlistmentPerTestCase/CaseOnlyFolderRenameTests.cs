@@ -23,8 +23,8 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerTestCase
         public void CaseRenameFoldersAndRemountAndRenameAgain()
         {
             // Projected folder without a physical folder
-            string parentFolderName = "GSD";
-            string oldGSDSubFolderName = "GSD";
+            string parentFolderName = "GVFS";
+            string oldGSDSubFolderName = "GVFS";
             string oldGSDSubFolderPath = Path.Combine(parentFolderName, oldGSDSubFolderName);
             string newGSDSubFolderName = "gvfs";
             string newGSDSubFolderPath = Path.Combine(parentFolderName, newGSDSubFolderName);
@@ -36,7 +36,7 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerTestCase
             this.Enlistment.GetVirtualPathTo(newGSDSubFolderPath).ShouldBeADirectory(this.fileSystem).WithCaseMatchingName(newGSDSubFolderName);
 
             // Projected folder with a physical folder
-            string oldTestsSubFolderName = "GSD.FunctionalTests";
+            string oldTestsSubFolderName = "GVFS.FunctionalTests";
             string oldTestsSubFolderPath = Path.Combine(parentFolderName, oldTestsSubFolderName);
             string newTestsSubFolderName = "gvfs.functionaltests";
             string newTestsSubFolderPath = Path.Combine(parentFolderName, newTestsSubFolderName);

@@ -321,17 +321,12 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
         private class MountSubfolders
         {
             public const string MountFolders = "Folders";
-            private static object[] mountFolders =
-            {
-                new object[] { string.Empty },
-                new object[] { "GSD" },
-            };
 
             public static object[] Folders
             {
                 get
                 {
-                    return mountFolders;
+                    return Array.Empty<object>();
                 }
             }
 

@@ -30,8 +30,8 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
             this.fileSystem = new SystemIORunner();
             this.upgradeDownloadsDirectory = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData, Environment.SpecialFolderOption.Create),
-                "GSD",
-                "GSD.Upgrade",
+                "GVFS",
+                "GVFS.Upgrade",
                 "Downloads");
         }
 

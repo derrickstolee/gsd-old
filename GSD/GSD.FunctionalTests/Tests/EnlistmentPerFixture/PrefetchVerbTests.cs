@@ -34,8 +34,8 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
         [TestCase, Order(2)]
         public void PrefetchSpecificFiles()
         {
-            this.ExpectBlobCount(this.Enlistment.Prefetch($"--files {Path.Combine("GSD", "GSD", "Program.cs")}"), 1);
-            this.ExpectBlobCount(this.Enlistment.Prefetch($"--files {Path.Combine("GSD", "GSD", "Program.cs")};{Path.Combine("GSD", "GSD.FunctionalTests", "GSD.FunctionalTests.csproj")}"), 2);
+            this.ExpectBlobCount(this.Enlistment.Prefetch($"--files {Path.Combine("GVFS", "GVFS", "Program.cs")}"), 1);
+            this.ExpectBlobCount(this.Enlistment.Prefetch($"--files {Path.Combine("GVFS", "GVFS", "Program.cs")};{Path.Combine("GVFS", "GVFS.FunctionalTests", "GVFS.FunctionalTests.csproj")}"), 2);
         }
 
         [TestCase, Order(3)]
@@ -59,7 +59,7 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
         {
             int expectedCount = 2;
             string output = this.Enlistment.Prefetch(
-                $"--files {Path.Combine("GSD", "GSD", "Program.cs")};{Path.Combine("GSD", "GSD.FunctionalTests", "GSD.FunctionalTests.csproj")} --hydrate");
+                $"--files {Path.Combine("GVFS", "GVFS", "Program.cs")};{Path.Combine("GVFS", "GVFS.FunctionalTests", "GVFS.FunctionalTests.csproj")} --hydrate");
             this.ExpectBlobCount(output, expectedCount);
             output.ShouldContain("Hydrated files:   " + expectedCount);
             output.ShouldContain("Downloaded:       0");
@@ -68,8 +68,8 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
         [TestCase, Order(6)]
         public void PrefetchFolders()
         {
-            this.ExpectBlobCount(this.Enlistment.Prefetch($"--folders {Path.Combine("GSD", "GSD")}"), 17);
-            this.ExpectBlobCount(this.Enlistment.Prefetch($"--folders {Path.Combine("GSD", "GSD")};{Path.Combine("GSD", "GSD.FunctionalTests")}"), 65);
+            this.ExpectBlobCount(this.Enlistment.Prefetch($"--folders {Path.Combine("GVFS", "GVFS")}"), 17);
+            this.ExpectBlobCount(this.Enlistment.Prefetch($"--folders {Path.Combine("GVFS", "GVFS")};{Path.Combine("GVFS", "GVFS.FunctionalTests")}"), 65);
         }
 
         [TestCase, Order(7)]
@@ -168,8 +168,8 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
                     tempFilePath,
                     new[]
                     {
-                        Path.Combine("GSD", "GSD", "Program.cs"),
-                        Path.Combine("GSD", "GSD.FunctionalTests", "GSD.FunctionalTests.csproj")
+                        Path.Combine("GVFS", "GVFS", "Program.cs"),
+                        Path.Combine("GVFS", "GVFS.FunctionalTests", "GVFS.FunctionalTests.csproj")
                     });
 
                 this.ExpectBlobCount(this.Enlistment.Prefetch($"--files-list \"{tempFilePath}\""), 2);
@@ -187,8 +187,8 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
                 Environment.NewLine,
                 new[]
                 {
-                    Path.Combine("GSD", "GSD", "packages.config"),
-                    Path.Combine("GSD", "GSD.FunctionalTests", "App.config")
+                    Path.Combine("GVFS", "GVFS", "packages.config"),
+                    Path.Combine("GVFS", "GVFS.FunctionalTests", "App.config")
                 });
 
             this.ExpectBlobCount(this.Enlistment.Prefetch("--stdin-files-list", standardInput: input), 2);
