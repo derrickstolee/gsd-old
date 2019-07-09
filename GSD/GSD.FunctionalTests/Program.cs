@@ -22,16 +22,10 @@ namespace GSD.FunctionalTests
                 GSDTestConfig.NoSharedCache = true;
             }
 
-            if (runner.HasCustomArg("--test-gvfs-on-path"))
+            if (runner.HasCustomArg("--test-gsd-on-path"))
             {
                 Console.WriteLine("Running tests against GSD on path");
                 GSDTestConfig.TestGSDOnPath = true;
-            }
-
-            if (runner.HasCustomArg("--replace-inbox-projfs"))
-            {
-                Console.WriteLine("Tests will replace inbox ProjFS");
-                GSDTestConfig.ReplaceInboxProjFS = true;
             }
 
             GSDTestConfig.LocalCacheRoot = runner.GetCustomArgWithParam("--shared-gvfs-cache-root");
@@ -122,11 +116,6 @@ namespace GSD.FunctionalTests
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (GSDTestConfig.ReplaceInboxProjFS)
-                {
-                    ProjFSFilterInstaller.ReplaceInboxProjFS();
-                }
-
                 GSDServiceProcess.InstallService();
 
                 string statusCacheVersionTokenPath = Path.Combine(

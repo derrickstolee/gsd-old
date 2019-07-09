@@ -6,7 +6,7 @@ IF "%1"=="" (SET "Configuration=Debug") ELSE (SET "Configuration=%1")
 SETLOCAL
 SET PATH=C:\Program Files\GSD;C:\Program Files\Git\cmd;%PATH%
 
-if not "%2"=="--test-gvfs-on-path" goto :startFunctionalTests
+if not "%2"=="--test-gsd-on-path" goto :startFunctionalTests
 
 REM Force GSD.FunctionalTests.exe to use the installed version of GSD
 del %VFS_OUTPUTDIR%\GSD.FunctionalTests\bin\x64\%Configuration%\netcoreapp2.1\GitHooksLoader.exe
@@ -32,7 +32,7 @@ del %VFS_OUTPUTDIR%\GSD.FunctionalTests.Windows\bin\x64\%Configuration%\GSD.Serv
 
 echo PATH = %PATH%
 echo gvfs location:
-where gvfs
+where gsd
 echo GSD.Service location:
 where GSD.Service
 echo git location:
