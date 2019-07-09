@@ -41,7 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		433FE814227B593500488730 /* GSD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GSD.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		433FE814227B593500488730 /* GSD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GSD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		433FE817227B593500488730 /* VFSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VFSAppDelegate.h; sourceTree = "<group>"; };
 		433FE818227B593500488730 /* VFSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VFSAppDelegate.m; sourceTree = "<group>"; };
 		433FE81A227B594300488730 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -216,7 +216,7 @@
 			);
 			dependencies = (
 			);
-			name = "GSD";
+			name = GSD;
 			productName = GSD;
 			productReference = 433FE814227B593500488730 /* GSD.app */;
 			productType = "com.apple.product-type.application";
@@ -465,7 +465,7 @@
 		433FE831227B594300488730 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "GSD";
+				ASSETCATALOG_COMPILER_APPICON_NAME = GSD;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -488,7 +488,7 @@
 		433FE832227B594300488730 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "GSD";
+				ASSETCATALOG_COMPILER_APPICON_NAME = GSD;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
