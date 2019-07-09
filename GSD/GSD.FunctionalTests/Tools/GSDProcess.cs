@@ -147,6 +147,7 @@ namespace GSD.FunctionalTests.Tools
             processInfo.WindowStyle = ProcessWindowStyle.Hidden;
             processInfo.UseShellExecute = false;
             processInfo.RedirectStandardOutput = true;
+            processInfo.RedirectStandardError = true;
             if (standardInput != null)
             {
                 processInfo.RedirectStandardInput = true;
@@ -170,7 +171,7 @@ namespace GSD.FunctionalTests.Tools
 
                 if (failOnError)
                 {
-                    process.ExitCode.ShouldEqual(0, result);
+                    process.ExitCode.ShouldEqual(0, $"Output: {result}\nError: {process.StandardError.ReadToEnd()}");
                 }
 
                 return result;
