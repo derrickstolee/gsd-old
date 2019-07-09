@@ -731,7 +731,7 @@ You can specify a URL, a name of a configured cache server, or the special names
 
                 if (allowedGvfsClientVersions == null || !allowedGvfsClientVersions.Any())
                 {
-                    errorMessage = "WARNING: Unable to validate your GSD version" + Environment.NewLine;
+                    errorMessage = "W A R N I N G: Unable to validate your GSD version" + Environment.NewLine;
                     if (config == null)
                     {
                         errorMessage += "Could not query valid GSD versions from: " + Uri.EscapeUriString(enlistment.RepoUrl);

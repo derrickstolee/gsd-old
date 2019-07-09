@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
 {
@@ -62,6 +63,9 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
         [TestCase, Order(2)]
         public void RepackAllToOnePack()
         {
+            // Delete all loose blobs downloaded at clone time so prefetch gets something
+            this.DeleteFiles(this.GetLooseObjectFiles());
+
             // Create new pack(s) by prefetching blobs for a folder.
             // This generates a number of packs, based on the processor number (for parallel downloads).
             this.Enlistment.Prefetch($"--folders {Path.Combine("GVFS", "GVFS")}");
@@ -126,6 +130,30 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
                 {
                     maxSize = size;
                 }
+            }
+        }
+
+        private List<string> GetLooseObjectFiles()
+        {
+            List<string> looseObjectFiles = new List<string>();
+            foreach (string directory in Directory.GetDirectories(this.GitObjectRoot))
+            {
+                // Check if the directory is 2 letter HEX
+                if (Regex.IsMatch(directory, @"[/\\][0-9a-fA-F]{2}$"))
+                {
+                    string[] files = Directory.GetFiles(directory);
+                    looseObjectFiles.AddRange(files);
+                }
+            }
+
+            return looseObjectFiles;
+        }
+
+        private void DeleteFiles(List<string> filePaths)
+        {
+            foreach (string filePath in filePaths)
+            {
+                File.Delete(filePath);
             }
         }
     }
