@@ -110,12 +110,6 @@ DestDir: "{app}"; Flags: ignoreversion; Source:"{#ServiceUIDir}\GitVirtualFileSy
 
 ; GSD Files
 DestDir: "{app}"; Flags: ignoreversion; Source:"{#GSDDir}\CommandLine.dll"
-DestDir: "{app}"; Flags: ignoreversion; Source:"{#GSDDir}\Microsoft.Data.Sqlite.dll"
-DestDir: "{app}"; Flags: ignoreversion; Source:"{#GSDDir}\SQLitePCLRaw.batteries_green.dll"
-DestDir: "{app}"; Flags: ignoreversion; Source:"{#GSDDir}\SQLitePCLRaw.batteries_v2.dll"
-DestDir: "{app}"; Flags: ignoreversion; Source:"{#GSDDir}\SQLitePCLRaw.core.dll"
-DestDir: "{app}"; Flags: ignoreversion; Source:"{#GSDDir}\SQLitePCLRaw.provider.e_sqlite3.dll"
-DestDir: "{app}"; Flags: ignoreversion; Source:"{#GSDDir}\x64\e_sqlite3.dll"
 DestDir: "{app}"; Flags: ignoreversion; Source:"{#GSDDir}\GSD.Common.dll"
 DestDir: "{app}"; Flags: ignoreversion; Source:"{#GSDDir}\GSD.Platform.Windows.dll"
 DestDir: "{app}"; Flags: ignoreversion; Source:"{#GSDDir}\Newtonsoft.Json.dll"

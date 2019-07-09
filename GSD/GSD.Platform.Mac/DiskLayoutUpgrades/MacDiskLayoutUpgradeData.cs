@@ -1,6 +1,5 @@
 ﻿using GSD.Common;
 using GSD.DiskLayoutUpgrades;
-using GSD.Platform.Mac.DiskLayoutUpgrades;
 
 namespace GSD.Platform.Mac
 {
@@ -12,15 +11,14 @@ namespace GSD.Platform.Mac
             {
                 return new DiskLayoutUpgrade[]
                 {
-                    new DiskLayout18to19Upgrade_SqlitePlacholders(),
                 };
             }
         }
 
         public DiskLayoutVersion Version => new DiskLayoutVersion(
-            currentMajorVersion: 19,
+            currentMajorVersion: 0,
             currentMinorVersion: 0,
-            minimumSupportedMajorVersion: 18);
+            minimumSupportedMajorVersion: 0);
 
         public bool TryParseLegacyDiskLayoutVersion(string dotGSDPath, out int majorVersion)
         {

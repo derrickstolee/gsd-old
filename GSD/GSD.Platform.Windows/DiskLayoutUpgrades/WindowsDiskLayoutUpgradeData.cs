@@ -16,9 +16,9 @@ namespace GSD.Platform.Windows.DiskLayoutUpgrades
         }
 
         public DiskLayoutVersion Version => new DiskLayoutVersion(
-                    currentMajorVersion: 19,
+                    currentMajorVersion: 0,
                     currentMinorVersion: 0,
-                    minimumSupportedMajorVersion: 7);
+                    minimumSupportedMajorVersion: 0);
 
         public bool TryParseLegacyDiskLayoutVersion(string dotGSDPath, out int majorVersion)
         {

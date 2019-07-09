@@ -101,17 +101,6 @@ namespace GSD.CommandLine
             string expectedHooksPath = Path.Combine(enlistment.WorkingDirectoryBackingRoot, GSDConstants.DotGit.Hooks.Root);
             expectedHooksPath = Paths.ConvertPathToGitFormat(expectedHooksPath);
 
-            string gitStatusCachePath = null;
-            if (!GSDEnlistment.IsUnattended(tracer: null) && GSDPlatform.Instance.IsGitStatusCacheSupported())
-            {
-                gitStatusCachePath = Path.Combine(
-                    enlistment.EnlistmentRoot,
-                    GSDPlatform.Instance.Constants.DotGSDRoot,
-                    GSDConstants.DotGSD.GitStatusCache.CachePath);
-
-                gitStatusCachePath = Paths.ConvertPathToGitFormat(gitStatusCachePath);
-            }
-
             // These settings are required for normal GSD functionality.
             // They will override any existing local configuration values.
             //
@@ -148,7 +137,6 @@ namespace GSD.CommandLine
                 { "pack.useSparse", "true" },
                 { "receive.autogc", "false" },
                 { "reset.quiet", "true" },
-                { "status.deserializePath", gitStatusCachePath },
             };
 
             if (!TrySetConfig(enlistment, requiredSettings, isRequired: true))

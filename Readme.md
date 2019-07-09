@@ -39,6 +39,8 @@ be breaking changes as we go:
 
 1. Allow GSD.Service to monitor and maintain vanilla Git repos.
 
+1. Integrate fsmonitor with status caching.
+
 ## Licenses
 
 The VFS for Git source code in this repo is available under the MIT license. See [License.md](License.md).

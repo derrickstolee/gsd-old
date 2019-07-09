@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Threading;
-using GSD.Common;
-using GSD.Common.Database;
+﻿using GSD.Common;
 using GSD.Common.FileSystem;
 using GSD.Common.Git;
 using GSD.Common.Http;
@@ -12,6 +6,11 @@ using GSD.Common.Maintenance;
 using GSD.Common.NamedPipes;
 using GSD.Common.Tracing;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
 
 namespace GSD.Mount
 {
@@ -19,7 +18,6 @@ namespace GSD.Mount
     {
         private readonly bool showDebugWindow;
 
-        private GSDDatabase gvfsDatabase;
         private GSDEnlistment enlistment;
         private ITracer tracer;
         private GitMaintenanceScheduler maintenanceScheduler;
@@ -449,7 +447,6 @@ namespace GSD.Mount
                 this.tracer.RelatedInfo("Git status cache is not enabled");
             }
 
-            this.gvfsDatabase = this.CreateOrReportAndExit(() => new GSDDatabase(this.context.FileSystem, this.context.Enlistment.EnlistmentRoot, new SqliteDatabase()), "Failed to create database connection");
             this.maintenanceScheduler = this.CreateOrReportAndExit(() => new GitMaintenanceScheduler(this.context, this.gitObjects), "Failed to start maintenance scheduler");
 
             int majorVersion;
@@ -475,9 +472,6 @@ namespace GSD.Mount
                 this.maintenanceScheduler.Dispose();
                 this.maintenanceScheduler = null;
             }
-
-            this.gvfsDatabase?.Dispose();
-            this.gvfsDatabase = null;
         }
     }
 }
