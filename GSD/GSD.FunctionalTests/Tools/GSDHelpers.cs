@@ -1,27 +1,16 @@
 ﻿using GSD.FunctionalTests.FileSystemRunners;
 using GSD.FunctionalTests.Should;
 using GSD.Tests.Should;
-using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace GSD.FunctionalTests.Tools
 {
     public static class GSDHelpers
     {
-        public const string ModifiedPathsNewLine = "\r\n";
-        public const string PlaceholderFieldDelimiter = "\0";
-
-        public static readonly string BackgroundOpsFile = Path.Combine("databases", "BackgroundGitOperations.dat");
-        public static readonly string PlaceholderListFile = Path.Combine("databases", "PlaceholderList.dat");
         public static readonly string RepoMetadataName = Path.Combine("databases", "RepoMetadata.dat");
-
-        private const string ModifedPathsLineAddPrefix = "A ";
-        private const string ModifedPathsLineDeletePrefix = "D ";
 
         private const string DiskLayoutMajorVersionKey = "DiskLayoutVersion";
         private const string DiskLayoutMinorVersionKey = "DiskLayoutMinorVersion";
@@ -71,65 +60,6 @@ namespace GSD.FunctionalTests.Tools
             return GetPersistedValue(dotGSDRoot, BlobSizesRootKey);
         }
 
-        public static void SQLiteBlobSizesDatabaseHasEntry(string blobSizesDbPath, string blobSha, long blobSize)
-        {
-            RunSqliteCommand(blobSizesDbPath, command =>
-            {
-                SqliteParameter shaParam = command.CreateParameter();
-                shaParam.ParameterName = "@sha";
-                command.CommandText = "SELECT size FROM BlobSizes WHERE sha = (@sha)";
-                command.Parameters.Add(shaParam);
-                shaParam.Value = StringToShaBytes(blobSha);
-
-                using (SqliteDataReader reader = command.ExecuteReader())
-                {
-                    reader.Read().ShouldBeTrue();
-                    reader.GetInt64(0).ShouldEqual(blobSize);
-                }
-
-                return true;
-            });
-        }
-
-        public static string GetAllSQLitePlaceholdersAsString(string placeholdersDbPath)
-        {
-            return RunSqliteCommand(placeholdersDbPath, command =>
-                {
-                    command.CommandText = "SELECT path, pathType, sha FROM Placeholder";
-                    using (SqliteDataReader reader = command.ExecuteReader())
-                    {
-                        StringBuilder sb = new StringBuilder();
-                        while (reader.Read())
-                        {
-                            sb.Append(reader.GetString(0));
-                            sb.Append(PlaceholderFieldDelimiter);
-                            sb.Append(reader.GetByte(1));
-                            sb.Append(PlaceholderFieldDelimiter);
-                            if (!reader.IsDBNull(2))
-                            {
-                                sb.Append(reader.GetString(2));
-                                sb.Append(PlaceholderFieldDelimiter);
-                            }
-
-                            sb.AppendLine();
-                        }
-
-                        return sb.ToString();
-                    }
-                });
-        }
-
-        public static void AddPlaceholderFolder(string placeholdersDbPath, string path, int pathType)
-        {
-            RunSqliteCommand(placeholdersDbPath, command =>
-            {
-                command.CommandText = "INSERT OR REPLACE INTO Placeholder (path, pathType, sha) VALUES (@path, @pathType, NULL)";
-                command.Parameters.AddWithValue("@path", path);
-                command.Parameters.AddWithValue("@pathType", pathType);
-                return command.ExecuteNonQuery();
-            });
-        }
-
         public static string ReadAllTextFromWriteLockedFile(string filename)
         {
             // File.ReadAllText and others attempt to open for read and FileShare.None, which always fail on
@@ -137,37 +67,6 @@ namespace GSD.FunctionalTests.Tools
             using (StreamReader reader = new StreamReader(File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
             {
                 return reader.ReadToEnd();
-            }
-        }
-
-        public static void ModifiedPathsContentsShouldEqual(GSDFunctionalTestEnlistment enlistment, FileSystemRunner fileSystem, string contents)
-        {
-            string modifedPathsContents = GetModifiedPathsContents(enlistment, fileSystem);
-            modifedPathsContents.ShouldEqual(contents);
-        }
-
-        public static void ModifiedPathsShouldContain(GSDFunctionalTestEnlistment enlistment, FileSystemRunner fileSystem, params string[] gitPaths)
-        {
-            string modifedPathsContents = GetModifiedPathsContents(enlistment, fileSystem);
-            string[] modifedPathLines = modifedPathsContents.Split(new[] { ModifiedPathsNewLine }, StringSplitOptions.None);
-            foreach (string gitPath in gitPaths)
-            {
-                modifedPathLines.ShouldContain(path => path.Equals(ModifedPathsLineAddPrefix + gitPath, StringComparison.OrdinalIgnoreCase));
-            }
-        }
-
-        public static void ModifiedPathsShouldNotContain(GSDFunctionalTestEnlistment enlistment, FileSystemRunner fileSystem, params string[] gitPaths)
-        {
-            string modifedPathsContents = GetModifiedPathsContents(enlistment, fileSystem);
-            string[] modifedPathLines = modifedPathsContents.Split(new[] { ModifiedPathsNewLine }, StringSplitOptions.None);
-            foreach (string gitPath in gitPaths)
-            {
-                modifedPathLines.ShouldNotContain(
-                    path =>
-                    {
-                        return path.Equals(ModifedPathsLineAddPrefix + gitPath, StringComparison.OrdinalIgnoreCase) ||
-                               path.Equals(ModifedPathsLineDeletePrefix + gitPath, StringComparison.OrdinalIgnoreCase);
-                    });
             }
         }
 
@@ -185,19 +84,6 @@ namespace GSD.FunctionalTests.Tools
             string modifiedPathsDatabase = Path.Combine(enlistment.DotGSDRoot, TestConstants.Databases.ModifiedPaths);
             modifiedPathsDatabase.ShouldBeAFile(fileSystem);
             return GSDHelpers.ReadAllTextFromWriteLockedFile(modifiedPathsDatabase);
-        }
-
-        private static T RunSqliteCommand<T>(string sqliteDbPath, Func<SqliteCommand, T> runCommand)
-        {
-            string connectionString = $"data source={sqliteDbPath}";
-            using (SqliteConnection connection = new SqliteConnection(connectionString))
-            {
-                connection.Open();
-                using (SqliteCommand command = connection.CreateCommand())
-                {
-                    return runCommand(command);
-                }
-            }
         }
 
         private static byte[] StringToShaBytes(string sha)

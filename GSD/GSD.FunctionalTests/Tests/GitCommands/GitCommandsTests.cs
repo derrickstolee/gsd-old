@@ -490,9 +490,7 @@ namespace GSD.FunctionalTests.Tests.GitCommands
             string newBranchName = "tests/functional/MoveFileFromInsideRepoToOutsideRepoAndCommit";
             this.ValidateGitCommand("checkout -b " + newBranchName);
 
-            // Confirm that no other test has caused "Protocol.md" to be added to the modified paths
             string fileName = "Protocol.md";
-            GSDHelpers.ModifiedPathsShouldNotContain(this.Enlistment, this.FileSystem, fileName);
 
             string controlTargetFolder = "MoveFileFromInsideRepoToOutsideRepoAndCommit_ControlTarget";
             string gvfsTargetFolder = "MoveFileFromInsideRepoToOutsideRepoAndCommit_GSDTarget";
@@ -995,23 +993,17 @@ namespace GSD.FunctionalTests.Tests.GitCommands
 
             string virtualFile = Path.Combine(this.Enlistment.RepoRoot, EncodingFileFolder, EncodingFilename);
             string controlFile = Path.Combine(this.ControlGitRepo.RootPath, EncodingFileFolder, EncodingFilename);
-            string relativeGitPath = EncodingFileFolder + "/" + EncodingFilename;
 
             string contents = virtualFile.ShouldBeAFile(this.FileSystem).WithContents();
             string expectedContents = controlFile.ShouldBeAFile(this.FileSystem).WithContents();
             contents.ShouldEqual(expectedContents);
 
-            // Confirm that the entry is not in the the modified paths database
-            GSDHelpers.ModifiedPathsShouldNotContain(this.Enlistment, this.FileSystem, relativeGitPath);
             this.ValidateGitCommand("status");
 
             this.AppendAllText(ContentWhenEditingFile, virtualFile);
             this.AppendAllText(ContentWhenEditingFile, controlFile);
 
             this.ValidateGitCommand("status");
-
-            // Confirm that the entry was added to the modified paths database
-            GSDHelpers.ModifiedPathsShouldContain(this.Enlistment, this.FileSystem, relativeGitPath);
         }
 
         [TestCase]

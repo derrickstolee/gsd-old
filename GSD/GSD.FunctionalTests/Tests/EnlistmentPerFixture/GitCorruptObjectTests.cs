@@ -87,7 +87,7 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
 
             ProcessResult revParseResult = GitProcess.InvokeProcess(this.Enlistment.RepoRoot, $"diff {fileName}");
             revParseResult.ExitCode.ShouldEqual(0);
-            revParseResult.Output.ShouldContain("The GSD network protocol consists of three operations");
+            revParseResult.Output.ShouldContain("The GVFS network protocol consists of three operations");
             revParseResult.Output.ShouldContain(newFileContents);
         }
 

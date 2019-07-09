@@ -3,12 +3,10 @@ using GSD.FunctionalTests.Properties;
 using GSD.FunctionalTests.Should;
 using GSD.FunctionalTests.Tools;
 using GSD.Tests.Should;
-using Microsoft.Win32.SafeHandles;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
 {
@@ -17,27 +15,12 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
     public class MountTests : TestsWithEnlistmentPerFixture
     {
         private const int GSDGenericError = 3;
-        private const uint GenericRead = 2147483648;
-        private const uint FileFlagBackupSemantics = 3355443;
-        private readonly int fileDeletedBackgroundOperationCode;
-        private readonly int directoryDeletedBackgroundOperationCode;
 
         private FileSystemRunner fileSystem;
 
         public MountTests()
         {
             this.fileSystem = new SystemIORunner();
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                this.fileDeletedBackgroundOperationCode = 16;
-                this.directoryDeletedBackgroundOperationCode = 17;
-            }
-            else
-            {
-                this.fileDeletedBackgroundOperationCode = 3;
-                this.directoryDeletedBackgroundOperationCode = 11;
-            }
         }
 
         [TestCaseSource(typeof(MountSubfolders), MountSubfolders.MountFolders)]
@@ -221,31 +204,6 @@ namespace GSD.FunctionalTests.Tests.EnlistmentPerFixture
             this.Enlistment.MountGSD();
 
             alternatesFilePath.ShouldBeAFile(this.fileSystem).WithContents(objectsRoot);
-        }
-
-        [TestCase]
-        public void MountCanProcessSavedBackgroundQueueTasks()
-        {
-            string deletedFileEntry = "Test_EPF_WorkingDirectoryTests/1/2/3/4/ReadDeepProjectedFile.cpp";
-            string deletedDirEntry = "Test_EPF_WorkingDirectoryTests/1/2/3/4/";
-            GSDHelpers.ModifiedPathsShouldNotContain(this.Enlistment, this.fileSystem, deletedFileEntry);
-            GSDHelpers.ModifiedPathsShouldNotContain(this.Enlistment, this.fileSystem, deletedDirEntry);
-            this.Enlistment.UnmountGSD();
-
-            // Prime the background queue with delete messages
-            string deleteFilePath = Path.Combine("Test_EPF_WorkingDirectoryTests", "1", "2", "3", "4", "ReadDeepProjectedFile.cpp");
-            string deleteDirPath = Path.Combine("Test_EPF_WorkingDirectoryTests", "1", "2", "3", "4");
-            string persistedDeleteFileTask = $"A 1\0{this.fileDeletedBackgroundOperationCode}\0{deleteFilePath}\0";
-            string persistedDeleteDirectoryTask = $"A 2\0{this.directoryDeletedBackgroundOperationCode}\0{deleteDirPath}\0";
-            this.fileSystem.WriteAllText(
-                Path.Combine(this.Enlistment.EnlistmentRoot, GSDTestConfig.DotGSDRoot, "databases", "BackgroundGitOperations.dat"),
-                $"{persistedDeleteFileTask}\r\n{persistedDeleteDirectoryTask}\r\n");
-
-            // Background queue should process the delete messages and modifiedPaths should show the change
-            this.Enlistment.MountGSD();
-            this.Enlistment.WaitForBackgroundOperations();
-            GSDHelpers.ModifiedPathsShouldContain(this.Enlistment, this.fileSystem, deletedFileEntry);
-            GSDHelpers.ModifiedPathsShouldContain(this.Enlistment, this.fileSystem, deletedDirEntry);
         }
 
         [TestCaseSource(typeof(MountSubfolders), MountSubfolders.MountFolders)]

@@ -186,12 +186,8 @@ namespace GSD.FunctionalTests.Tests.GitCommands
             this.ValidateGitCommand("checkout db95d631e379d366d26d899523f8136a77441914");
             this.FileContentsShouldMatch("Test_ConflictTests", "ModifiedFiles", fileName);
 
-            // A read should not add the file to the modified paths
-            GSDHelpers.ModifiedPathsShouldNotContain(this.Enlistment, this.FileSystem, fileName);
-
             this.ValidateGitCommand("checkout FunctionalTests/20170206_Conflict_Source");
             this.FileContentsShouldMatch("Test_ConflictTests", "ModifiedFiles", fileName);
-            GSDHelpers.ModifiedPathsShouldNotContain(this.Enlistment, this.FileSystem, fileName);
         }
 
         [TestCase]
@@ -206,12 +202,8 @@ namespace GSD.FunctionalTests.Tests.GitCommands
             this.ValidateGitCommand("checkout db95d631e379d366d26d899523f8136a77441914");
             this.FileContentsShouldMatch(filePath);
 
-            // A read should not add the file to the modified paths
-            GSDHelpers.ModifiedPathsShouldNotContain(this.Enlistment, this.FileSystem, fileName);
-
             this.ValidateGitCommand("checkout FunctionalTests/20170206_Conflict_Source");
             this.ShouldNotExistOnDisk(filePath);
-            GSDHelpers.ModifiedPathsShouldNotContain(this.Enlistment, this.FileSystem, fileName);
         }
 
         [TestCase]
@@ -225,9 +217,6 @@ namespace GSD.FunctionalTests.Tests.GitCommands
 
             this.ValidateGitCommand("checkout " + GitRepoTests.ConflictSourceBranch);
             this.FilesShouldMatchCheckoutOfSourceBranch();
-
-            // Verify modified paths contents
-            GSDHelpers.ModifiedPathsContentsShouldEqual(this.Enlistment, this.FileSystem, "A .gitattributes" + GSDHelpers.ModifiedPathsNewLine);
         }
 
         [TestCase]
@@ -243,9 +232,6 @@ namespace GSD.FunctionalTests.Tests.GitCommands
             this.ValidateGitCommand("checkout " + GitRepoTests.ConflictSourceBranch);
             this.Enlistment.RepoRoot.ShouldBeADirectory(this.FileSystem)
                 .WithDeepStructure(this.FileSystem, this.ControlGitRepo.RootPath, compareContent: true);
-
-            // Verify modified paths contents
-            GSDHelpers.ModifiedPathsContentsShouldEqual(this.Enlistment, this.FileSystem, "A .gitattributes" + GSDHelpers.ModifiedPathsNewLine);
         }
 
         [TestCase]
@@ -329,8 +315,6 @@ namespace GSD.FunctionalTests.Tests.GitCommands
             this.FileContentsShouldMatch(readFilePath);
             this.FileContentsShouldMatch(editFilePath);
             this.Enlistment.GetVirtualPathTo(readFilePath).ShouldBeAFile(this.FileSystem).WithContents().ShouldNotEqual(originalReadFileContents);
-
-            GSDHelpers.ModifiedPathsShouldNotContain(this.Enlistment, this.FileSystem, Path.GetFileName(readFilePath));
         }
 
         [TestCase]
@@ -657,9 +641,6 @@ namespace GSD.FunctionalTests.Tests.GitCommands
             // changing branches
 
             string folderName = "GVFlt_MultiThreadTest";
-
-            // Confirm that no other test has caused "GVFlt_MultiThreadTest" to be added to the modified paths database
-            GSDHelpers.ModifiedPathsShouldNotContain(this.Enlistment, this.FileSystem, folderName);
 
             this.FolderShouldHaveCaseMatchingName(folderName);
             this.DeleteFolder(folderName);

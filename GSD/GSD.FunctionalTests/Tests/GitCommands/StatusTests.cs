@@ -79,8 +79,6 @@ namespace GSD.FunctionalTests.Tests.GitCommands
 
         private void ValidGitStatusWithRetry(string srcPath)
         {
-            this.Enlistment.WaitForBackgroundOperations();
-            GSDHelpers.ModifiedPathsShouldContain(this.Enlistment, this.FileSystem, srcPath);
             try
             {
                 this.ValidateGitCommand("status");
