@@ -1,5 +1,4 @@
-﻿using GSD.Common.Git;
-using GSD.Common.Tracing;
+﻿using GSD.Common.Tracing;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -61,18 +60,6 @@ namespace GSD.Common.FileSystem
                         error = "Failed to copy " + installedHookPath + "\n" + error;
                         return false;
                     }
-                }
-
-                string precommandHookPath = Path.Combine(context.Enlistment.WorkingDirectoryBackingRoot, GSDConstants.DotGit.Hooks.PreCommandPath);
-                if (!GSDPlatform.Instance.TryInstallGitCommandHooks(context, ExecutingDirectory, GSDConstants.DotGit.Hooks.PreCommandHookName, precommandHookPath, out error))
-                {
-                    return false;
-                }
-
-                string postcommandHookPath = Path.Combine(context.Enlistment.WorkingDirectoryBackingRoot, GSDConstants.DotGit.Hooks.PostCommandPath);
-                if (!GSDPlatform.Instance.TryInstallGitCommandHooks(context, ExecutingDirectory, GSDConstants.DotGit.Hooks.PostCommandHookName, postcommandHookPath, out error))
-                {
-                    return false;
                 }
             }
             catch (Exception e)
