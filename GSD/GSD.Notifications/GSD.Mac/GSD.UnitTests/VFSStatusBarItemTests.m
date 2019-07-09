@@ -3,7 +3,7 @@
 #import "VFSMockProductInfoFetcher.h"
 #import "VFSStatusBarItem.h"
 
-NSString * const ExpectedAboutMenuTitle = @"About VFS For Git";
+NSString * const ExpectedAboutMenuTitle = @"About GSD";
 
 @interface VFSStatusBarItemTests : XCTestCase
 

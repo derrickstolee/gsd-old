@@ -40,7 +40,7 @@ VFSFORGITDESTINATION="usr/local/GSD"
 DAEMONPLISTDESTINATION="Library/LaunchDaemons"
 AGENTPLISTDESTINATION="Library/LaunchAgents"
 LIBRARYEXTENSIONSDESTINATION="Library/Extensions"
-LIBRARYAPPSUPPORTDESTINATION="Library/Application Support/VFS For Git"
+LIBRARYAPPSUPPORTDESTINATION="Library/Application Support/GSD"
 INSTALLERPACKAGENAME="GSD.$PACKAGEVERSION"
 INSTALLERPACKAGEID="com.GSD.pkg"
 UNINSTALLERPATH="${SOURCEDIRECTORY}/uninstall_GSD.sh"
@@ -100,7 +100,7 @@ function CopyBinariesToInstall()
     copyUnInstaller="cp -f \"${UNINSTALLERPATH}\" \"${STAGINGDIR}/${VFSFORGITDESTINATION}/.\""
     eval $copyUnInstaller || exit 1
        
-    copyNotificationApp="cp -Rf \"${VFS_OUTPUTDIR}/GSD.Notifications/GSD.Mac/Build/Products/$CONFIGURATION/VFS For Git.app\" \"${STAGINGDIR}/${LIBRARYAPPSUPPORTDESTINATION}/.\""
+    copyNotificationApp="cp -Rf \"${VFS_OUTPUTDIR}/GSD.Notifications/GSD.Mac/Build/Products/$CONFIGURATION/GSD.app\" \"${STAGINGDIR}/${LIBRARYAPPSUPPORTDESTINATION}/.\""
     eval $copyNotificationApp || exit 1
     
     copyNotificationPlist="cp -Rf \"${SOURCEDIRECTORY}/../GSD.Notifications/GSD.Mac/org.GSD.usernotification.plist\" \"${STAGINGDIR}/${AGENTPLISTDESTINATION}/.\""

@@ -18,7 +18,7 @@
         <string>org.GSD.usernotification</string>
         <key>ProgramArguments</key>
         <array>
-            <string>/Library/Application Support/VFS For Git/VFS For Git.app/Contents/MacOS/VFS For Git</string>
+            <string>/Library/Application Support/GSD/GSD.app/Contents/MacOS/GSD</string>
         </array>
         <key>WorkingDirectory</key>
         <string>/usr/local/GSD</string>

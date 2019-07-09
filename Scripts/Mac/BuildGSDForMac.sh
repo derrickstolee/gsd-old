@@ -55,7 +55,7 @@ xcodebuild -configuration $CONFIGURATION -workspace $NATIVEDIR/GSD.Native.Mac.xc
 
 USERNOTIFICATIONDIR=$VFS_SRCDIR/GSD/GSD.Notifications/GSD.Mac
 USERNOTIFICATIONPROJECT="$USERNOTIFICATIONDIR/GSD.xcodeproj"
-USERNOTIFICATIONSCHEME="VFS For Git"
+USERNOTIFICATIONSCHEME="GSD"
 updateAppVersionCmd="(cd \"$USERNOTIFICATIONDIR\" && /usr/bin/xcrun agvtool new-marketing-version \"$VERSION\")"
 echo $updateAppVersionCmd
 eval $updateAppVersionCmd

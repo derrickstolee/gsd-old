@@ -32,7 +32,7 @@
     }
     else
     {
-        NSLog(@"Error getting VFS For Git version: %@", [error description]);
+        NSLog(@"Error getting GSD version: %@", [error description]);
         return @"Not available";
     }
 }

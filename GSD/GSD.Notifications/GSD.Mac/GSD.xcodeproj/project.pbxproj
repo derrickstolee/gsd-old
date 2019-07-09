@@ -41,7 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		433FE814227B593500488730 /* VFS For Git.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VFS For Git.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		433FE814227B593500488730 /* GSD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GSD.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		433FE817227B593500488730 /* VFSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VFSAppDelegate.h; sourceTree = "<group>"; };
 		433FE818227B593500488730 /* VFSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VFSAppDelegate.m; sourceTree = "<group>"; };
 		433FE81A227B594300488730 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 		433FE815227B593500488730 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				433FE814227B593500488730 /* VFS For Git.app */,
+				433FE814227B593500488730 /* GSD.app */,
 				43583C2B2285E3E1003357D6 /* GSD.UnitTests.xctest */,
 			);
 			name = Products;
@@ -204,9 +204,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		433FE813227B593500488730 /* VFS For Git */ = {
+		433FE813227B593500488730 /* GSD */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 433FE830227B594300488730 /* Build configuration list for PBXNativeTarget "VFS For Git" */;
+			buildConfigurationList = 433FE830227B594300488730 /* Build configuration list for PBXNativeTarget "GSD" */;
 			buildPhases = (
 				433FE810227B593500488730 /* Sources */,
 				433FE811227B593500488730 /* Frameworks */,
@@ -216,9 +216,9 @@
 			);
 			dependencies = (
 			);
-			name = "VFS For Git";
+			name = "GSD";
 			productName = GSD;
-			productReference = 433FE814227B593500488730 /* VFS For Git.app */;
+			productReference = 433FE814227B593500488730 /* GSD.app */;
 			productType = "com.apple.product-type.application";
 		};
 		43583C2A2285E3E1003357D6 /* GSD.UnitTests */ = {
@@ -270,7 +270,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				433FE813227B593500488730 /* VFS For Git */,
+				433FE813227B593500488730 /* GSD */,
 				43583C2A2285E3E1003357D6 /* GSD.UnitTests */,
 			);
 		};
@@ -334,7 +334,7 @@
 /* Begin PBXTargetDependency section */
 		43583C312285E3E1003357D6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 433FE813227B593500488730 /* VFS For Git */;
+			target = 433FE813227B593500488730 /* GSD */;
 			targetProxy = 43583C302285E3E1003357D6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -465,7 +465,7 @@
 		433FE831227B594300488730 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "VFS For Git";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "GSD";
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -488,7 +488,7 @@
 		433FE832227B594300488730 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "VFS For Git";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "GSD";
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -526,7 +526,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.GSD-UnitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VFS For Git.app/Contents/MacOS/VFS For Git";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GSD.app/Contents/MacOS/GSD";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -548,7 +548,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.microsoft.GSD-UnitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VFS For Git.app/Contents/MacOS/VFS For Git";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GSD.app/Contents/MacOS/GSD";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -565,7 +565,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		433FE830227B594300488730 /* Build configuration list for PBXNativeTarget "VFS For Git" */ = {
+		433FE830227B594300488730 /* Build configuration list for PBXNativeTarget "GSD" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				433FE831227B594300488730 /* Debug */,

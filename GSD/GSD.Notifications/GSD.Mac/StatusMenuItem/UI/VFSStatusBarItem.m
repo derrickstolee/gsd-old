@@ -81,7 +81,7 @@
     NSUInteger index = 0;
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *aboutItem = [[NSMenuItem alloc]
-                             initWithTitle:@"About VFS For Git"
+                             initWithTitle:@"About GSD"
                              action:@selector(handleMenuClick:)
                              keyEquivalent:@""];
     
