@@ -13,8 +13,6 @@ del %VFS_OUTPUTDIR%\GSD.FunctionalTests\bin\x64\%Configuration%\netcoreapp2.1\Gi
 del %VFS_OUTPUTDIR%\GSD.FunctionalTests\bin\x64\%Configuration%\netcoreapp2.1\GSD.exe
 del %VFS_OUTPUTDIR%\GSD.FunctionalTests\bin\x64\%Configuration%\netcoreapp2.1\GSD.Hooks.exe
 del %VFS_OUTPUTDIR%\GSD.FunctionalTests\bin\x64\%Configuration%\netcoreapp2.1\GSD.ReadObjectHook.exe
-del %VFS_OUTPUTDIR%\GSD.FunctionalTests\bin\x64\%Configuration%\netcoreapp2.1\GSD.VirtualFileSystemHook.exe
-del %VFS_OUTPUTDIR%\GSD.FunctionalTests\bin\x64\%Configuration%\netcoreapp2.1\GSD.PostIndexChangedHook.exe
 del %VFS_OUTPUTDIR%\GSD.FunctionalTests\bin\x64\%Configuration%\netcoreapp2.1\GSD.Mount.exe
 del %VFS_OUTPUTDIR%\GSD.FunctionalTests\bin\x64\%Configuration%\netcoreapp2.1\GSD.Service.exe
 del %VFS_OUTPUTDIR%\GSD.FunctionalTests\bin\x64\%Configuration%\netcoreapp2.1\GSD.Service.UI.exe
@@ -24,8 +22,6 @@ del %VFS_OUTPUTDIR%\GSD.FunctionalTests.Windows\bin\x64\%Configuration%\GitHooks
 del %VFS_OUTPUTDIR%\GSD.FunctionalTests.Windows\bin\x64\%Configuration%\GSD.exe
 del %VFS_OUTPUTDIR%\GSD.FunctionalTests.Windows\bin\x64\%Configuration%\GSD.Hooks.exe
 del %VFS_OUTPUTDIR%\GSD.FunctionalTests.Windows\bin\x64\%Configuration%\GSD.ReadObjectHook.exe
-del %VFS_OUTPUTDIR%\GSD.FunctionalTests.Windows\bin\x64\%Configuration%\GSD.VirtualFileSystemHook.exe
-del %VFS_OUTPUTDIR%\GSD.FunctionalTests.Windows\bin\x64\%Configuration%\GSD.PostIndexChangedHook.exe
 del %VFS_OUTPUTDIR%\GSD.FunctionalTests.Windows\bin\x64\%Configuration%\GSD.Mount.exe
 del %VFS_OUTPUTDIR%\GSD.FunctionalTests.Windows\bin\x64\%Configuration%\GSD.Service.exe
 del %VFS_OUTPUTDIR%\GSD.FunctionalTests.Windows\bin\x64\%Configuration%\GSD.Service.UI.exe

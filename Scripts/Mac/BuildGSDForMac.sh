@@ -16,9 +16,6 @@ if [ ! -d $VFS_OUTPUTDIR ]; then
   mkdir $VFS_OUTPUTDIR
 fi
 
-echo 'Building ProjFS kext and libraries...'
-$VFS_SRCDIR/ProjFS.Mac/Scripts/Build.sh $CONFIGURATION || exit 1
-
 # Create the directory where we'll do pre build tasks
 BUILDDIR=$VFS_OUTPUTDIR/GSD.Build
 if [ ! -d $BUILDDIR ]; then
@@ -75,11 +72,7 @@ fi
 
 echo 'Copying native binaries to Publish directory...'
 cp $VFS_OUTPUTDIR/GSD.Native.Mac/Build/Products/$CONFIGURATION/GSD.ReadObjectHook $VFS_PUBLISHDIR || exit 1
-cp $VFS_OUTPUTDIR/GSD.Native.Mac/Build/Products/$CONFIGURATION/GSD.VirtualFileSystemHook $VFS_PUBLISHDIR || exit 1
-cp $VFS_OUTPUTDIR/GSD.Native.Mac/Build/Products/$CONFIGURATION/GSD.PostIndexChangedHook $VFS_PUBLISHDIR || exit 1
-
-# Publish after native build, so installer package can include the native binaries.
-dotnet publish $VFS_SRCDIR/GSD.sln /p:Configuration=$CONFIGURATION.Mac /p:Platform=x64 -p:CopyPrjFS=true --runtime osx-x64 --framework netcoreapp2.1 --self-contained --output $VFS_PUBLISHDIR /maxcpucount:1 /warnasmessage:MSB4011 || exit 1
+dotnet publish $VFS_SRCDIR/GSD.sln /p:Configuration=$CONFIGURATION.Mac /p:Platform=x64 --runtime osx-x64 --framework netcoreapp2.1 --self-contained --output $VFS_PUBLISHDIR /maxcpucount:1 /warnasmessage:MSB4011 || exit 1
 
 echo 'Copying Git installer to the output directory...'
 $VFS_SCRIPTDIR/PublishGit.sh $GITPATH || exit 1
