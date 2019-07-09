@@ -741,9 +741,6 @@ You can specify a URL, a name of a configured cache server, or the special names
                         errorMessage += "Server not configured to provide supported GSD versions";
                     }
 
-                    EventMetadata metadata = new EventMetadata();
-                    tracer.RelatedError(metadata, errorMessage, Keywords.Network);
-
                     return false;
                 }
 

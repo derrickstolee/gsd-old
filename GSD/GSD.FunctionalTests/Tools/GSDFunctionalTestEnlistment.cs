@@ -20,7 +20,7 @@ namespace GSD.FunctionalTests.Tools
         private const int DefaultMaxWaitMSForStatusCheck = 5000;
         private static readonly string ZeroBackgroundOperations = "Background operations: 0" + Environment.NewLine;
 
-        private GSDProcess gvfsProcess;
+        private GSDProcess gsdProcess;
 
         private GSDFunctionalTestEnlistment(string pathToGSD, string enlistmentRoot, string repoUrl, string commitish, string localCacheRoot = null)
         {
@@ -44,7 +44,7 @@ namespace GSD.FunctionalTests.Tools
             }
 
             this.LocalCacheRoot = localCacheRoot;
-            this.gvfsProcess = new GSDProcess(pathToGSD, this.EnlistmentRoot, this.LocalCacheRoot);
+            this.gsdProcess = new GSDProcess(pathToGSD, this.EnlistmentRoot, this.LocalCacheRoot);
         }
 
         public string EnlistmentRoot
@@ -159,7 +159,7 @@ namespace GSD.FunctionalTests.Tools
 
         public void CloneAndMount(bool skipPrefetch)
         {
-            this.gvfsProcess.Clone(this.RepoUrl, this.Commitish, skipPrefetch);
+            this.gsdProcess.Clone(this.RepoUrl, this.Commitish, skipPrefetch);
 
             GitProcess.Invoke(this.RepoRoot, "checkout " + this.Commitish);
             GitProcess.Invoke(this.RepoRoot, "branch --unset-upstream");
@@ -182,7 +182,7 @@ namespace GSD.FunctionalTests.Tools
 
         public void MountGSD()
         {
-            this.gvfsProcess.Mount();
+            this.gsdProcess.Mount();
         }
 
         public bool TryMountGSD()
@@ -193,42 +193,42 @@ namespace GSD.FunctionalTests.Tools
 
         public bool TryMountGSD(out string output)
         {
-            return this.gvfsProcess.TryMount(out output);
+            return this.gsdProcess.TryMount(out output);
         }
 
         public string Prefetch(string args, bool failOnError = true, string standardInput = null)
         {
-            return this.gvfsProcess.Prefetch(args, failOnError, standardInput);
+            return this.gsdProcess.Prefetch(args, failOnError, standardInput);
         }
 
         public void Repair(bool confirm)
         {
-            this.gvfsProcess.Repair(confirm);
+            this.gsdProcess.Repair(confirm);
         }
 
         public string Diagnose()
         {
-            return this.gvfsProcess.Diagnose();
+            return this.gsdProcess.Diagnose();
         }
 
         public string LooseObjectStep()
         {
-            return this.gvfsProcess.LooseObjectStep();
+            return this.gsdProcess.LooseObjectStep();
         }
 
         public string PackfileMaintenanceStep(long? batchSize = null)
         {
-            return this.gvfsProcess.PackfileMaintenanceStep(batchSize);
+            return this.gsdProcess.PackfileMaintenanceStep(batchSize);
         }
 
         public string PostFetchStep()
         {
-            return this.gvfsProcess.PostFetchStep();
+            return this.gsdProcess.PostFetchStep();
         }
 
         public string Status(string trace = null)
         {
-            return this.gvfsProcess.Status(trace);
+            return this.gsdProcess.Status(trace);
         }
 
         public bool WaitForBackgroundOperations(int maxWaitMilliseconds = DefaultMaxWaitMSForStatusCheck)
@@ -243,17 +243,17 @@ namespace GSD.FunctionalTests.Tools
 
         public void UnmountGSD()
         {
-            this.gvfsProcess.Unmount();
+            this.gsdProcess.Unmount();
         }
 
         public string GetCacheServer()
         {
-            return this.gvfsProcess.CacheServer("--get");
+            return this.gsdProcess.CacheServer("--get");
         }
 
         public string SetCacheServer(string arg)
         {
-            return this.gvfsProcess.CacheServer("--set " + arg);
+            return this.gsdProcess.CacheServer("--set " + arg);
         }
 
         public void UnmountAndDeleteAll()
