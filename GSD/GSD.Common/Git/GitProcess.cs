@@ -458,6 +458,11 @@ namespace GSD.Common.Git
             return this.InvokeGitAgainstDotGitFolder("diff-tree -r -t " + sourceTreeish + " " + targetTreeish, null, onResult);
         }
 
+        public Result PartialCheckoutInit()
+        {
+            return this.InvokeGitAgainstDotGitFolder("partial-checkout init");
+        }
+
         public Result CreateBranchWithUpstream(string branchToCreate, string upstreamBranch)
         {
             return this.InvokeGitAgainstDotGitFolder("branch " + branchToCreate + " --track " + upstreamBranch);

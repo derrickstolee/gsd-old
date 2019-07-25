@@ -168,9 +168,11 @@ namespace GSD.Common
                 public const string ExcludeName = "exclude";
                 public const string AlwaysExcludeName = "always_exclude";
                 public const string SparseCheckoutName = "sparse-checkout";
+                public const string PartialCheckoutName = "partial-checkout";
 
                 public static readonly string Root = Path.Combine(DotGit.Root, Info.Name);
                 public static readonly string SparseCheckoutPath = Path.Combine(Info.Root, Info.SparseCheckoutName);
+                public static readonly string PartialCheckoutPath = Path.Combine(Info.Root, Info.PartialCheckoutName);
                 public static readonly string ExcludePath = Path.Combine(Info.Root, ExcludeName);
                 public static readonly string AlwaysExcludePath = Path.Combine(Info.Root, AlwaysExcludeName);
             }

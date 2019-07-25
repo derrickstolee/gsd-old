@@ -9,7 +9,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace GSD.CommandLine
 {
@@ -73,6 +72,13 @@ namespace GSD.CommandLine
             Required = false,
             HelpText = "Use this option to override the path for the local GSD cache.")]
         public string LocalCacheRoot { get; set; }
+
+        [Option(
+            "partial",
+            Required = false,
+            Default = false,
+            HelpText = "Initialize a partial-checkout to reduce hydration. Use 'git partial-checkout add' to expand cone.")]
+        public bool Partial { get; set; }
 
         protected override string VerbName
         {
@@ -139,6 +145,7 @@ namespace GSD.CommandLine
                                 { "SingleBranch", this.SingleBranch },
                                 { "NoMount", this.NoMount },
                                 { "NoPrefetch", this.NoPrefetch },
+                                { "Partial", this.Partial },
                                 { "Unattended", this.Unattended },
                                 { "IsElevated", GSDPlatform.Instance.IsElevated() },
                                 { "NamedPipeName", enlistment.NamedPipeName },
@@ -652,6 +659,12 @@ git %*
             File.WriteAllText(
                 Path.Combine(repoPath, GSDConstants.DotGit.PackedRefs),
                 refs.ToPackedRefs());
+
+            if (this.Partial)
+            {
+                GitProcess process = new GitProcess(enlistmentToInit);
+                process.PartialCheckoutInit();
+            }
 
             return new Result(true);
         }

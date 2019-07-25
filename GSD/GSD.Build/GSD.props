@@ -3,7 +3,7 @@
 
   <PropertyGroup Label="Parameters">
     <GSDVersion>0.2.173.2</GSDVersion>
-    <GitPackageVersion>2.20190724.1</GitPackageVersion>
+    <GitPackageVersion>2.20190726.4-pr</GitPackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Label="DefaultSettings">
