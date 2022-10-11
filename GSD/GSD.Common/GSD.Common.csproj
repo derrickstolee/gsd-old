@@ -27,7 +27,7 @@
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="NuGet.Protocol" Version="4.9.2" />
+    <PackageReference Include="NuGet.Protocol" Version="4.9.6+a32bce39889f724fbd11cfd12e946f802168b583" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
